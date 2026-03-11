@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Elisa & Sem ⭐</title>
+<title>Elisa & Sem 💛</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -74,6 +74,7 @@
     cursor: pointer; transition: all 0.2s ease; background: #E8E0F0; color: #888;
   }
   .time-btn.active-ochtend { background: #FFD166; color: #7A5500; box-shadow: 0 4px 12px rgba(255,209,102,0.5); }
+  .time-btn.active-middag { background: #06D6A0; color: #004D3A; box-shadow: 0 4px 12px rgba(6,214,160,0.4); }
   .time-btn.active-avond { background: #6C63FF; color: white; box-shadow: 0 4px 12px rgba(108,99,255,0.4); }
 
   .grid {
@@ -97,16 +98,16 @@
   /* Dog container */
   .dog-wrap {
     position: relative;
-    width: 90px;
-    height: 105px;
+    width: 130px;
+    height: 150px;
     display: flex;
     align-items: flex-end;
     justify-content: center;
   }
 
   .dog-svg {
-    width: 82px;
-    height: 82px;
+    width: 120px;
+    height: 120px;
     position: relative;
     z-index: 1;
     transition: transform 0.2s ease;
@@ -117,8 +118,8 @@
     top: 0px;
     left: 50%;
     transform: translateX(-46%) rotate(-10deg);
-    width: 34px;
-    height: 34px;
+    width: 48px;
+    height: 48px;
     opacity: 0;
     transition: opacity 0.4s ease;
     z-index: 2;
@@ -298,6 +299,7 @@
 
 <div class="time-toggle">
   <button class="time-btn active-ochtend" id="btnOchtend" onclick="setTime('ochtend')">Ochtend</button>
+  <button class="time-btn" id="btnMiddag" onclick="setTime('middag')">Middag</button>
   <button class="time-btn" id="btnAvond" onclick="setTime('avond')">Avond</button>
 </div>
 
@@ -311,7 +313,7 @@
         <button class="token-btn" style="position:static" onclick="openTokenPopup('elisa')" title="Bloemetjes">
           🌸 <span id="tokenCountElisa" style="font-size:0.85rem">0</span>
         </button>
-        <div class="sets-display" id="tokenSetsElisa" style="font-size:0.85rem;letter-spacing:1px;text-align:center"></div>
+        <div class="sets-display" id="tokenSetsElisa" style="font-size:0.85rem;letter-spacing:1px;text-align:center;cursor:pointer" onclick="openInwisselPopup('elisa')"></div>
       </div>
       <div class="child-name">Elisa</div>      <div class="dog-wrap" id="dogWrapElisa">
         <svg class="party-hat" viewBox="0 0 40 42" xmlns="http://www.w3.org/2000/svg">
@@ -392,7 +394,7 @@
         <button class="token-btn" style="position:static" onclick="openTokenPopup('sem')" title="Wielen">
           🚗 <span id="tokenCountSem" style="font-size:0.85rem">0</span>
         </button>
-        <div class="sets-display" id="tokenSetsSem" style="font-size:0.85rem;letter-spacing:1px;text-align:center"></div>
+        <div class="sets-display" id="tokenSetsSem" style="font-size:0.85rem;letter-spacing:1px;text-align:center;cursor:pointer" onclick="openInwisselPopup('sem')"></div>
       </div>
       <div class="child-name">Sem</div>
       <div class="dog-wrap" id="dogWrapSem">
@@ -539,6 +541,7 @@
       </div>
       <div class="time-tab-row">
         <button class="time-tab active" id="tabOchtend" onclick="setEditorTime('ochtend')">Ochtend</button>
+        <button class="time-tab" id="tabMiddag" onclick="setEditorTime('middag')">Middag</button>
         <button class="time-tab" id="tabAvond" onclick="setEditorTime('avond')">Avond</button>
       </div>
       <div class="time-tab-row">
@@ -640,6 +643,10 @@ const TASKS = {
         { id: 'wc2', emoji: '🚽', label: 'WC (nog een keer)', pts: 1 },
       ],
       extra: []
+    },
+    middag: {
+      standaard: [],
+      extra: []
     }
   },
   elisa: {
@@ -662,6 +669,10 @@ const TASKS = {
         { id: 'omkleden', emoji: '🩳', label: 'Omkleden', pts: 1 },
         { id: 'verhaal', emoji: '📖', label: 'Verhaal lezen', pts: 1 },
       ],
+      extra: []
+    },
+    middag: {
+      standaard: [],
       extra: []
     }
   }
@@ -698,9 +709,10 @@ function openTokenPopup(child) {
 
   document.getElementById('tokenPopupTitle').textContent = isElisa ? '🌸 Bloemetjes' : '🚗 Wielen';
 
+  const heartsStr = '💛 '.repeat(Math.min(coins, 10)).trim();
   const coinsText = coins > 0
-    ? `${remainder} ${emoji} · ${'💛'.repeat(Math.min(coins, 10))}${coins > 10 ? ` (${coins})` : ''}`
-    : `${remainder} ${emoji}`;
+    ? remainder + ' ' + emoji + ' · ' + heartsStr + (coins > 10 ? ' (' + coins + ')' : '')
+    : remainder + ' ' + emoji;
   document.getElementById('tokenPopupSub').textContent = coinsText;
 
   const today = todayString();
@@ -717,16 +729,10 @@ function openTokenPopup(child) {
     </div>`;
   }).join('');
 
-  // Inwisselen knop - alleen tonen als er minstens 1 volledige set is
+  // Inwisselen knop verborgen - gaat via hartjes
   const inwisselRow = document.getElementById('tokenInwisselRow');
-  if (coins >= 1) {
-    inwisselRow.style.display = 'block';
-    inwisselRow.innerHTML = `<button class="inwisselen-btn" onclick="confirmInwisselen()">
-      💛 Inwisselen (${coins} muntje${coins !== 1 ? 's' : ''} beschikbaar)
-    </button>`;
-  } else {
-    inwisselRow.style.display = 'none';
-  }
+  inwisselRow.style.display = 'none';
+  inwisselRow.innerHTML = '';
 
   document.getElementById('tokenOverlay').classList.add('show');
 }
@@ -739,27 +745,44 @@ function answerToken(index, value) {
 
   const prev = state[child].tokenAnswers[today][index];
 
-  if (prev === true && value !== true) {
-    state[child].totalTokens = Math.max(0, (state[child].totalTokens || 0) - 1);
-  } else if (prev !== true && value === true) {
-    state[child].totalTokens = (state[child].totalTokens || 0) + 1;
+  // Nogmaals klikken op zelfde waarde = deselecteren
+  if (prev === value) {
+    if (prev === true) state[child].totalTokens = Math.max(0, (state[child].totalTokens || 0) - 1);
+    delete state[child].tokenAnswers[today][index];
+  } else {
+    if (prev === true && value !== true) {
+      state[child].totalTokens = Math.max(0, (state[child].totalTokens || 0) - 1);
+    } else if (prev !== true && value === true) {
+      state[child].totalTokens = (state[child].totalTokens || 0) + 1;
+    }
+    state[child].tokenAnswers[today][index] = value;
   }
 
-  state[child].tokenAnswers[today][index] = value;
   saveState();
   updateTokenDisplay(child);
   openTokenPopup(child);
 }
 
-function confirmInwisselen() {
-  const child = tokenPopupChild;
+function openInwisselPopup(child) {
+  tokenPopupChild = child;
+  const isElisa = child === 'elisa';
   const total = state[child].totalTokens || 0;
-  const maxCoins = Math.floor(total / TOKEN_THRESHOLD);
+  const coins = Math.floor(total / TOKEN_THRESHOLD);
+
+  if (coins < 1) return;
+
+  document.getElementById('tokenPopupTitle').textContent = isElisa ? '💛 Hartjes inwisselen' : '💛 Hartjes inwisselen';
+  document.getElementById('tokenPopupSub').textContent = `${coins} hartje${coins !== 1 ? 's' : ''} beschikbaar`;
+  document.getElementById('tokenQuestions').innerHTML = '';
+
   const inwisselRow = document.getElementById('tokenInwisselRow');
+  inwisselRow.style.display = 'block';
+  selectedSets = 1;
 
   let coinOptions = '';
-  for (let i = 1; i <= maxCoins; i++) {
-    coinOptions += `<button class="time-tab${i===1?' active':''}" style="flex:1;padding:8px" onclick="selectSets(this,${i})">💛${i > 1 ? '×'+i : ''}</button>`;
+  for (let i = 1; i <= coins; i++) {
+    const hearts = '💛 '.repeat(i).trim();
+    coinOptions += `<button class="time-tab${i===1?' active':''}" style="flex:1;padding:8px" onclick="selectSets(this,${i})">${hearts}</button>`;
   }
 
   inwisselRow.innerHTML = `
@@ -768,9 +791,11 @@ function confirmInwisselen() {
       <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">${coinOptions}</div>
       <div style="display:flex;gap:8px">
         <button class="danger-btn red" style="flex:1;margin:0;padding:10px" onclick="doInwisselen()">Ja, inleveren</button>
-        <button class="danger-btn orange" style="flex:1;margin:0;padding:10px" onclick="openTokenPopup('${child}')">Annuleren</button>
+        <button class="danger-btn orange" style="flex:1;margin:0;padding:10px" onclick="closeTokenPopup()">Annuleren</button>
       </div>
     </div>`;
+
+  document.getElementById('tokenOverlay').classList.add('show');
 }
 
 let selectedSets = 1;
@@ -806,7 +831,7 @@ function updateTokenDisplay(child) {
   if (countEl) countEl.textContent = remainder;
 
   const setsEl = document.getElementById('tokenSets' + cap(child));
-  if (setsEl) setsEl.textContent = coins > 0 ? '💛'.repeat(Math.min(coins, 20)) : '';
+  if (setsEl) setsEl.textContent = coins > 0 ? ('💛 '.repeat(Math.min(coins, 20))).trim() : '';
 
   const dogWrap = document.getElementById('dogWrap' + cap(child));
   const header = dogWrap ? dogWrap.closest('.card-header') : null;
@@ -933,7 +958,7 @@ async function syncTasksFromCloud() {
 
   if (tasksData && Object.keys(tasksData).length > 0) {
     for (const child of ['sem', 'elisa']) {
-      for (const time of ['ochtend', 'avond']) {
+      for (const time of ['ochtend', 'middag', 'avond']) {
         if (tasksData[child]?.[time]?.standaard) TASKS[child][time].standaard = tasksData[child][time].standaard;
         if (tasksData[child]?.[time]?.extra) TASKS[child][time].extra = tasksData[child][time].extra;
       }
@@ -992,13 +1017,13 @@ async function syncVoortgangFromCloud() {
     if (v.data.totalSets !== undefined) state[kind].totalSets = v.data.totalSets;
     if (v.data.tokenAnswers) state[kind].tokenAnswers = v.data.tokenAnswers;
     if (v.datum === today) {
-      state[kind].ochtend = v.data.ochtend || {};
+      state[kind].ochtend = v.data.ochtend || {}; state[kind].middag = v.data.middag || {};
       state[kind].avond = v.data.avond || {};
     } else {
-      state[kind].ochtend = {};
+      state[kind].ochtend = {}; state[kind].middag = {};
       state[kind].avond = {};
       supaSetVoortgang(kind, today, {
-        ochtend: {}, avond: {},
+        ochtend: {}, middag: {}, avond: {},
         totalTokens: state[kind].totalTokens || 0,
         totalSets: state[kind].totalSets || 0,
         tokenAnswers: state[kind].tokenAnswers || {}
@@ -1014,13 +1039,13 @@ async function syncVoortgangFromCloud() {
 function saveVoortgangCloud() {
   const today = todayString();
   supaSetVoortgang('sem', today, {
-    ochtend: state.sem.ochtend, avond: state.sem.avond,
+    ochtend: state.sem.ochtend, middag: state.sem.middag, avond: state.sem.avond,
     totalTokens: state.sem.totalTokens || 0,
     totalSets: state.sem.totalSets || 0,
     tokenAnswers: state.sem.tokenAnswers || {}
   });
   supaSetVoortgang('elisa', today, {
-    ochtend: state.elisa.ochtend, avond: state.elisa.avond,
+    ochtend: state.elisa.ochtend, middag: state.elisa.middag, avond: state.elisa.avond,
     totalTokens: state.elisa.totalTokens || 0,
     totalSets: state.elisa.totalSets || 0,
     tokenAnswers: state.elisa.tokenAnswers || {}
@@ -1028,7 +1053,7 @@ function saveVoortgangCloud() {
 }
 
 const initHour = new Date().getHours();
-let currentTime = initHour >= 19 ? 'avond' : 'ochtend';
+let currentTime = initHour >= 19 ? 'avond' : initHour >= 12 ? 'middag' : 'ochtend';
 let state = loadState();
 
 function loadState() {
@@ -1036,7 +1061,7 @@ function loadState() {
     const saved = localStorage.getItem('belonings_v3');
     if (saved) return JSON.parse(saved);
   } catch(e) {}
-  return { sem: { ochtend:{}, avond:{}, totalPoints:0, totalTokens:0, totalSets:0, tokenAnswers:{} }, elisa: { ochtend:{}, avond:{}, totalPoints:0, totalTokens:0, totalSets:0, tokenAnswers:{} } };
+  return { sem: { ochtend:{}, middag:{}, avond:{}, totalPoints:0, totalTokens:0, totalSets:0, tokenAnswers:{} }, elisa: { ochtend:{}, middag:{}, avond:{}, totalPoints:0, totalTokens:0, totalSets:0, tokenAnswers:{} } };
 }
 
 function saveStateLocal() {
@@ -1053,6 +1078,7 @@ function saveState() {
 function setTime(time) {
   currentTime = time;
   document.getElementById('btnOchtend').className = 'time-btn' + (time==='ochtend' ? ' active-ochtend' : '');
+  document.getElementById('btnMiddag').className = 'time-btn' + (time==='middag' ? ' active-middag' : '');
   document.getElementById('btnAvond').className = 'time-btn' + (time==='avond' ? ' active-avond' : '');
   renderTasks('sem');
   renderTasks('elisa');
@@ -1238,8 +1264,8 @@ function launchConfetti(color) {
 
 function resetDay() {
   if (!confirm('Nieuwe dag starten? Taken worden gereset, punten blijven staan.')) return;
-  state.sem.ochtend = {}; state.sem.avond = {};
-  state.elisa.ochtend = {}; state.elisa.avond = {};
+  state.sem.ochtend = {}; state.sem.middag = {}; state.sem.avond = {};
+  state.elisa.ochtend = {}; state.elisa.middag = {}; state.elisa.avond = {};
   saveState();
   renderTasks('sem'); renderTasks('elisa');
   updateDogFace('sem'); updateDogFace('elisa');
@@ -1290,6 +1316,7 @@ function updateEditorTabs() {
   document.getElementById('tabElisa').className = 'child-tab' + (editorChild==='elisa' ? ' active-elisa' : '');
   document.getElementById('tabSem').className = 'child-tab' + (editorChild==='sem' ? ' active-sem' : '');
   document.getElementById('tabOchtend').className = 'time-tab' + (editorTime==='ochtend' ? ' active' : '');
+  document.getElementById('tabMiddag').className = 'time-tab' + (editorTime==='middag' ? ' active' : '');
   document.getElementById('tabAvond').className = 'time-tab' + (editorTime==='avond' ? ' active' : '');
   document.getElementById('tabStandaard').className = 'time-tab' + (editorCat==='standaard' ? ' active' : '');
   document.getElementById('tabExtra').className = 'time-tab' + (editorCat==='extra' ? ' active' : '');
