@@ -633,6 +633,10 @@
       <h3>📋 Taken beheren</h3>
       <div style="display:flex;gap:8px;margin-bottom:12px;align-items:flex-start">
         <div style="display:flex;flex-direction:column;gap:6px;flex:1">
+          <button class="time-tab active-elisa" id="tabElisa" onclick="setEditorChild('elisa')" style="width:100%;height:35px;box-sizing:border-box">Elisa</button>
+          <button class="time-tab" id="tabSem" onclick="setEditorChild('sem')" style="width:100%;height:35px;box-sizing:border-box">Sem</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;flex:1">
           <button class="time-tab active" id="tabOchtend" onclick="setEditorTime('ochtend')" style="width:100%;height:35px;box-sizing:border-box">Ochtend</button>
           <button class="time-tab" id="tabMiddag" onclick="setEditorTime('middag')" style="width:100%;height:35px;box-sizing:border-box">Middag</button>
           <button class="time-tab" id="tabAvond" onclick="setEditorTime('avond')" style="width:100%;height:35px;box-sizing:border-box">Avond</button>
@@ -662,6 +666,10 @@
     <!-- Shop beheer -->
     <div class="panel-section">
       <h3>🛍️ Shop beheren</h3>
+      <div style="display:flex;gap:6px;margin-bottom:12px">
+        <button class="time-tab active-elisa" id="shopTabElisa" onclick="setShopEditorChild('elisa')" style="flex:1;height:35px;box-sizing:border-box">Elisa</button>
+        <button class="time-tab" id="shopTabSem" onclick="setShopEditorChild('sem')" style="flex:1;height:35px;box-sizing:border-box">Sem</button>
+      </div>
       <div id="shopEditor" style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px"></div>
       <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
         <div class="add-task-row">
@@ -1472,6 +1480,8 @@ function setEditorCat(cat) {
 }
 
 function updateEditorTabs() {
+  document.getElementById('tabElisa').className = 'time-tab' + (editorChild==='elisa' ? ' active-elisa' : '');
+  document.getElementById('tabSem').className = 'time-tab' + (editorChild==='sem' ? ' active-sem' : '');
   document.getElementById('tabOchtend').className = 'time-tab' + (editorTime==='ochtend' ? ' active' : '');
   document.getElementById('tabMiddag').className = 'time-tab' + (editorTime==='middag' ? ' active' : '');
   document.getElementById('tabAvond').className = 'time-tab' + (editorTime==='avond' ? ' active' : '');
@@ -1481,58 +1491,32 @@ function updateEditorTabs() {
 }
 
 function renderTaskEditor() {
+  const tasks = TASKS[editorChild][editorTime][editorCat];
   const container = document.getElementById('taskEditor');
   const isExtra = editorCat === 'extra';
 
-  // Verzamel alle taken van beide kinderen, gegroepeerd
-  const groepen = ['elisa', 'sem', 'beiden'].map(groep => {
-    let items = [];
-    if (groep === 'beiden') {
-      // Taken die bij beide kinderen identiek zijn (zelfde id)
-      const elisaTasks = TASKS.elisa[editorTime][editorCat];
-      const semTasks = TASKS.sem[editorTime][editorCat];
-      const semIds = new Set(semTasks.map(t => t.id));
-      items = elisaTasks
-        .filter(t => t.voor === 'beiden' || semIds.has(t.id))
-        .map((t, i) => ({ ...t, _child: 'beiden', _iElisa: i, _iSem: semTasks.findIndex(s => s.id === t.id) }));
-    } else {
-      items = TASKS[groep][editorTime][editorCat]
-        .map((t, i) => ({ ...t, _child: groep, _i: i }))
-        .filter(t => t.voor === groep);
-    }
-    return { groep, items };
-  }).filter(g => g.items.length > 0);
-
-  if (groepen.length === 0) {
+  if (tasks.length === 0) {
     container.innerHTML = '<p style="color:#AAA;font-size:0.85rem;font-weight:700;padding:10px 4px">Geen taken</p>';
     return;
   }
 
-  container.innerHTML = groepen.map(({ groep, items }) => {
-    const groepLabel = groep === 'elisa' ? '🌸 Elisa' : groep === 'sem' ? '🚗 Sem' : '👫 Beiden';
-    const groepKleur = groep === 'elisa' ? '#F9D0D3' : groep === 'sem' ? '#C8E6F7' : '#E8F5E9';
-    const groepTekst = groep === 'elisa' ? '#C0484F' : groep === 'sem' ? '#1A5A8A' : '#2E7D32';
-    const childKey = groep === 'beiden' ? 'elisa' : groep;
-    const tasks = TASKS[childKey][editorTime][editorCat].filter(t => groep === 'beiden' ? (t.voor === 'beiden') : t.voor === groep);
-
-    return `<div style="font-size:0.75rem;font-weight:900;color:${groepTekst};background:${groepKleur};border-radius:8px;padding:8px 10px;margin-top:8px;margin-bottom:4px">${groepLabel}</div>
-    ${tasks.map((t, i) => {
-      const realI = TASKS[childKey][editorTime][editorCat].indexOf(t);
-      return `<div class="task-editor-row">
-        <div class="order-btns">
-          <button class="order-btn" onclick="moveTaskFor('${childKey}','${groep}',${realI},-1)">▲</button>
-          <button class="order-btn" onclick="moveTaskFor('${childKey}','${groep}',${realI},1)">▼</button>
-        </div>
-        <span class="task-editor-emoji">${t.emoji}</span>
-        <input class="task-editor-input" value="${t.label}" onchange="renameTaskFor('${childKey}','${groep}',${realI},this.value)" />
-        ${isExtra ? `<div class="task-pts-controls">
-          <button class="task-pts-btn m" onclick="changeTaskPtsFor('${childKey}','${groep}',${realI},-1)">−</button>
-          <span class="task-pts-val">${t.pts||1}</span>
-          <button class="task-pts-btn p" onclick="changeTaskPtsFor('${childKey}','${groep}',${realI},1)">+</button>
-        </div>` : ''}
-        <button class="task-del-btn" onclick="deleteTaskFor('${childKey}','${groep}',${realI})">✕</button>
-      </div>`;
-    }).join('')}`;
+  container.innerHTML = tasks.map((t, i) => {
+    const isShared = t.voor === 'beiden';
+    return `<div class="task-editor-row">
+      <div class="order-btns">
+        <button class="order-btn" onclick="moveTask(${i},-1)" ${i===0?'disabled style="opacity:0.3"':''}>▲</button>
+        <button class="order-btn" onclick="moveTask(${i},1)" ${i===tasks.length-1?'disabled style="opacity:0.3"':''}>▼</button>
+      </div>
+      <span class="task-editor-emoji">${t.emoji}</span>
+      <input class="task-editor-input" value="${t.label}" onchange="renameTask(${i}, this.value)" />
+      ${isShared ? `<span style="font-size:0.7rem;font-weight:900;background:#E8F5E9;color:#2E7D32;border-radius:20px;padding:2px 6px;flex-shrink:0">👫</span>` : ''}
+      ${isExtra ? `<div class="task-pts-controls">
+        <button class="task-pts-btn m" onclick="changeTaskPts(${i},-1)">−</button>
+        <span class="task-pts-val">${t.pts||1}</span>
+        <button class="task-pts-btn p" onclick="changeTaskPts(${i},1)">+</button>
+      </div>` : ''}
+      <button class="task-del-btn" onclick="deleteTask(${i})">✕</button>
+    </div>`;
   }).join('');
 }
 
@@ -1582,6 +1566,7 @@ function openPanel() {
   document.getElementById('panelTokenThreshold').textContent = TOKEN_THRESHOLD;
   updateBonusPtsDisplay();
   editorChild = 'elisa'; editorTime = 'ochtend'; editorCat = 'standaard';
+  shopEditorChild = 'elisa';
   tokenEditorChild = 'elisa';
   document.getElementById('tabTokenElisa').className = 'child-tab active-elisa';
   document.getElementById('tabTokenSem').className = 'child-tab';
@@ -1645,40 +1630,51 @@ function adjustPoints(child, delta) {
 
 function renameTask(index, newLabel) {
   if (!newLabel.trim()) return;
-  TASKS[editorChild][editorTime][editorCat][index].label = newLabel.trim();
-  renderTasks(editorChild);
-  saveState();
-  saveTasksToCloud();
+  const task = TASKS[editorChild][editorTime][editorCat][index];
+  task.label = newLabel.trim();
+  if (task.voor === 'beiden') {
+    const other = editorChild === 'elisa' ? 'sem' : 'elisa';
+    const oi = TASKS[other][editorTime][editorCat].findIndex(t => t.id === task.id);
+    if (oi >= 0) TASKS[other][editorTime][editorCat][oi].label = newLabel.trim();
+  }
+  renderTasks('sem'); renderTasks('elisa');
+  saveState(); saveTasksToCloud();
 }
 
 function moveTask(index, dir) {
   const tasks = TASKS[editorChild][editorTime][editorCat];
   const newIndex = index + dir;
   if (newIndex < 0 || newIndex >= tasks.length) return;
-  const tmp = tasks[index];
-  tasks[index] = tasks[newIndex];
-  tasks[newIndex] = tmp;
+  [tasks[index], tasks[newIndex]] = [tasks[newIndex], tasks[index]];
   renderTaskEditor();
   renderTasks(editorChild);
-  saveState();
-  saveTasksToCloud();
+  saveState(); saveTasksToCloud();
 }
 
 function changeTaskPts(index, delta) {
   const task = TASKS[editorChild][editorTime][editorCat][index];
   task.pts = Math.max(1, (task.pts || 1) + delta);
+  if (task.voor === 'beiden') {
+    const other = editorChild === 'elisa' ? 'sem' : 'elisa';
+    const oi = TASKS[other][editorTime][editorCat].findIndex(t => t.id === task.id);
+    if (oi >= 0) TASKS[other][editorTime][editorCat][oi].pts = task.pts;
+  }
   renderTaskEditor();
-  renderTasks(editorChild);
-  saveState();
-  saveTasksToCloud();
+  renderTasks('sem'); renderTasks('elisa');
+  saveState(); saveTasksToCloud();
 }
 
 function deleteTask(index) {
+  const task = TASKS[editorChild][editorTime][editorCat][index];
+  if (task.voor === 'beiden') {
+    const other = editorChild === 'elisa' ? 'sem' : 'elisa';
+    const oi = TASKS[other][editorTime][editorCat].findIndex(t => t.id === task.id);
+    if (oi >= 0) TASKS[other][editorTime][editorCat].splice(oi, 1);
+  }
   TASKS[editorChild][editorTime][editorCat].splice(index, 1);
   renderTaskEditor();
-  renderTasks(editorChild);
-  saveState();
-  saveTasksToCloud();
+  renderTasks('sem'); renderTasks('elisa');
+  saveState(); saveTasksToCloud();
 }
 
 function moveTaskFor(child, groep, index, dir) {
@@ -1869,31 +1865,45 @@ function setShopFor(voor) {
   });
 }
 
+let shopEditorChild = 'elisa';
+
+function setShopEditorChild(child) {
+  shopEditorChild = child;
+  document.getElementById('shopTabElisa').className = 'time-tab' + (child === 'elisa' ? ' active-elisa' : '');
+  document.getElementById('shopTabSem').className = 'time-tab' + (child === 'sem' ? ' active-sem' : '');
+  renderShopEditor();
+}
+
 function renderShopEditor() {
   const container = document.getElementById('shopEditor');
   if (!container) return;
-  container.innerHTML = ['elisa', 'sem', 'beiden'].map(groep => {
-    const items = SHOP_ITEMS.map((item, i) => ({...item, _i: i})).filter(item => (item.voor || 'beiden') === groep);
-    if (items.length === 0) return '';
-    const groepLabel = groep === 'elisa' ? '🌸 Elisa' : groep === 'sem' ? '🚗 Sem' : '👫 Beiden';
-    const groepKleur = groep === 'elisa' ? '#F9D0D3' : groep === 'sem' ? '#C8E6F7' : '#E8F5E9';
-    const groepTekst = groep === 'elisa' ? '#C0484F' : groep === 'sem' ? '#1A5A8A' : '#2E7D32';
-    return `
-      <div style="font-size:0.75rem;font-weight:900;color:${groepTekst};background:${groepKleur};border-radius:8px;padding:8px 10px;margin-top:8px;margin-bottom:4px">${groepLabel}</div>
-      ${items.map(item => `<div class="shop-editor-item">
-        <div class="order-btns">
-          <button class="order-btn" onclick="moveShopItem(${item._i},-1)">▲</button>
-          <button class="order-btn" onclick="moveShopItem(${item._i},1)">▼</button>
-        </div>
-        <span style="font-size:1.2rem;width:28px;text-align:center">${item.emoji}</span>
-        <span style="flex:1;font-size:0.85rem;font-weight:700">${item.label}</span>
-        <div class="task-pts-controls">
-          <button class="task-pts-btn m" onclick="changeShopPts(${item._i},-1)">−</button>
-          <span class="task-pts-val">⭐ ${item.pts}</span>
-          <button class="task-pts-btn p" onclick="changeShopPts(${item._i},1)">+</button>
-        </div>
-        <button class="shop-editor-del" onclick="deleteShopItem(${item._i})">✕</button>
-      </div>`).join('')}`;
+
+  // Toon items voor dit kind + gedeelde items
+  const items = SHOP_ITEMS.map((item, i) => ({...item, _i: i}))
+    .filter(item => (item.voor || 'beiden') === 'beiden' || (item.voor || 'beiden') === shopEditorChild);
+
+  if (items.length === 0) {
+    container.innerHTML = '<p style="color:#AAA;font-size:0.85rem;font-weight:700;padding:10px 4px">Geen beloningen</p>';
+    return;
+  }
+
+  container.innerHTML = items.map(item => {
+    const isShared = (item.voor || 'beiden') === 'beiden';
+    return `<div class="shop-editor-item">
+      <div class="order-btns">
+        <button class="order-btn" onclick="moveShopItem(${item._i},-1)">▲</button>
+        <button class="order-btn" onclick="moveShopItem(${item._i},1)">▼</button>
+      </div>
+      <span style="font-size:1.2rem;width:28px;text-align:center">${item.emoji}</span>
+      <span style="flex:1;font-size:0.85rem;font-weight:700">${item.label}</span>
+      ${isShared ? `<span style="font-size:0.7rem;font-weight:900;background:#E8F5E9;color:#2E7D32;border-radius:20px;padding:2px 6px;flex-shrink:0">👫</span>` : ''}
+      <div class="task-pts-controls">
+        <button class="task-pts-btn m" onclick="changeShopPts(${item._i},-1)">−</button>
+        <span class="task-pts-val">⭐ ${item.pts}</span>
+        <button class="task-pts-btn p" onclick="changeShopPts(${item._i},1)">+</button>
+      </div>
+      <button class="shop-editor-del" onclick="deleteShopItem(${item._i})">✕</button>
+    </div>`;
   }).join('');
 }
 
