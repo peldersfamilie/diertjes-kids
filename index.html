@@ -21,6 +21,7 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  button { -webkit-appearance: none; appearance: none; }
 
   body {
     font-family: 'Nunito', sans-serif;
@@ -73,9 +74,9 @@
     font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800;
     cursor: pointer; transition: all 0.2s ease; background: #E8E0F0; color: #888;
   }
-  .time-btn.active-ochtend { background: #FFD166; color: #7A5500; box-shadow: 0 4px 12px rgba(255,209,102,0.5); }
-  .time-btn.active-middag { background: #06D6A0; color: #004D3A; box-shadow: 0 4px 12px rgba(6,214,160,0.4); }
-  .time-btn.active-avond { background: #6C63FF; color: white; box-shadow: 0 4px 12px rgba(108,99,255,0.4); }
+  .time-btn.active-ochtend { background: #F17A82; color: white; box-shadow: 0 4px 12px rgba(241,122,130,0.5); }
+  .time-btn.active-middag { background: #F17A82; color: white; box-shadow: 0 4px 12px rgba(241,122,130,0.5); }
+  .time-btn.active-avond { background: #F17A82; color: white; box-shadow: 0 4px 12px rgba(241,122,130,0.5); }
 
   .grid {
     display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
@@ -183,7 +184,7 @@
   .task-btn.done .task-pts-badge { background: #B8EDCA; color: #2E7D32; }
   .order-btns { display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
   .order-btn { background: #EEE; border: none; border-radius: 5px; width: 22px; height: 18px; font-size: 0.6rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #666; }
-  .order-btn:active { background: #6C63FF; color: white; }
+  .order-btn:active { background: #F17A82; color: white; }
   .task-pts-controls { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
   .task-pts-btn { width: 22px; height: 22px; border-radius: 50%; border: none; font-size: 0.85rem; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; }
   .task-pts-btn.m { background: #FFE5E5; color: #E53935; }
@@ -221,7 +222,7 @@
 
   .bottom-bar { text-align: center; padding: 0 16px 28px; position: relative; z-index: 1; display: flex; justify-content: center; gap: 10px; }
   .parent-btn {
-    background: none; border: 2px solid #E0D8FF; color: #AAA;
+    background: none; border: 2px solid #F9D0D3; color: #AAA;
     font-family: 'Nunito', sans-serif; font-size: 0.8rem; font-weight: 700;
     padding: 8px 18px; border-radius: 50px; cursor: pointer; transition: all 0.2s ease;
   }
@@ -235,18 +236,18 @@
   .pin-box p { font-size: 0.8rem; color: var(--muted); margin-bottom: 16px; }
   .pin-dots { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
   .pin-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #DDD; background: white; transition: all 0.15s ease; }
-  .pin-dot.filled { background: #6C63FF; border-color: #6C63FF; }
+  .pin-dot.filled { background: #F17A82; border-color: #F17A82; }
   .pin-dot.error { background: #EF476F; border-color: #EF476F; animation: shake 0.3s ease; }
   @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
   .pin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
   .pin-key { padding: 14px; border: none; border-radius: 14px; background: #F4F4F8; font-family: 'Nunito', sans-serif; font-size: 1.2rem; font-weight: 800; cursor: pointer; transition: all 0.15s ease; color: var(--text); }
-  .pin-key:active { transform: scale(0.93); background: #E8E0FF; }
+  .pin-key:active { transform: scale(0.93); background: #FDE8EA; }
   .pin-key.del { font-size: 1rem; color: #999; }
   .pin-cancel { margin-top: 12px; background: none; border: none; color: #BBB; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 700; cursor: pointer; }
 
   .parent-panel { display: none; position: fixed; inset: 0; background: #F7F4FF; z-index: 200; overflow-y: auto; }
   .parent-panel.show { display: block; }
-  .panel-header { background: #6C63FF; color: white; padding: 20px 20px 16px; display: flex; align-items: center; justify-content: space-between; }
+  .panel-header { background: #F17A82; color: white; padding: 20px 20px 16px; display: flex; align-items: center; justify-content: space-between; }
   .panel-header h2 { font-size: 1.2rem; font-weight: 900; }
   .panel-close { background: rgba(255,255,255,0.2); border: none; color: white; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 800; padding: 6px 14px; border-radius: 50px; cursor: pointer; }
   .panel-body { padding: 24px; display: flex; flex-direction: column; gap: 20px; }
@@ -264,29 +265,32 @@
   .pts-val { font-size: 1.1rem; font-weight: 900; min-width: 36px; text-align: center; }
 
   .child-tab-row { display: flex; gap: 8px; margin-bottom: 12px; }
-  .child-tab { flex: 1; padding: 8px; border: 2px solid #E0D8FF; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 800; cursor: pointer; background: white; color: #999; transition: all 0.15s ease; }
-  .child-tab.active-sem { border-color: var(--sem); color: var(--sem-dark); background: var(--sem-light); }
-  .child-tab.active-elisa { border-color: var(--elisa); color: var(--elisa-dark); background: var(--elisa-light); }
+  .child-tab { flex: 1 0 auto; padding: 0 !important; border: 2px solid #F9D0D3 !important; border-radius: 8px !important; font-family: 'Nunito', sans-serif; font-size: 0.8rem !important; font-weight: 800; cursor: pointer; background: white; color: #999; transition: all 0.15s ease; height: 35px !important; box-sizing: border-box !important; display: flex !important; align-items: center !important; justify-content: center !important; }
+  .child-tab.active-sem { border-color: #F17A82 !important; color: #F17A82 !important; background: #FDE8EA !important; }
+  .child-tab.active-elisa { border-color: #F17A82 !important; color: #F17A82 !important; background: #FDE8EA !important; }
   .time-tab-row { display: flex; gap: 6px; margin-bottom: 10px; }
-  .time-tab { flex: 1; padding: 6px; border: 2px solid #E8E0F0; border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 0.8rem; font-weight: 800; cursor: pointer; background: white; color: #AAA; transition: all 0.15s ease; }
-  .time-tab.active { border-color: #6C63FF; color: #6C63FF; background: #EEEAFF; }
+  .time-tab { flex: 1 0 auto; padding: 0; border: 2px solid #E8E0F0 !important; border-radius: 8px !important; font-family: 'Nunito', sans-serif; font-size: 0.8rem !important; font-weight: 800; cursor: pointer; background: white; color: #AAA; transition: all 0.15s ease; height: 35px !important; box-sizing: border-box !important; display: flex; align-items: center; justify-content: center; outline: none !important; }
+  .time-tab:focus { outline: none !important; box-shadow: none !important; }
+  .time-tab.active { border-color: #F17A82 !important; color: #F17A82; background: #FDE8EA; }
+  .time-tab.active-elisa { border-color: #F17A82 !important; color: #F17A82; background: #FDE8EA; }
+  .time-tab.active-sem { border-color: #F17A82 !important; color: #F17A82; background: #FDE8EA; }
 
   .task-editor { display: flex; flex-direction: column; gap: 8px; }
   .task-editor-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: #F8F8F8; border-radius: 12px; cursor: default; transition: box-shadow 0.15s ease; }
   .task-editor-row.dragging { opacity: 0.4; }
-  .task-editor-row.drag-over { box-shadow: 0 0 0 2px #6C63FF; background: #EEEAFF; }
+  .task-editor-row.drag-over { box-shadow: 0 0 0 2px #F17A82; background: #FDE8EA; }
   .drag-handle { color: #CCC; font-size: 1.1rem; cursor: grab; flex-shrink: 0; padding: 0 2px; user-select: none; }
   .drag-handle:active { cursor: grabbing; }
   .task-editor-emoji { font-size: 1.2rem; width: 28px; text-align: center; flex-shrink: 0; }
   .task-editor-input { flex: 1; font-size: 0.85rem; font-weight: 700; font-family: 'Nunito', sans-serif; border: 1.5px solid transparent; border-radius: 8px; padding: 4px 6px; background: transparent; color: var(--text); }
-  .task-editor-input:focus { outline: none; border-color: #6C63FF; background: white; }
+  .task-editor-input:focus { outline: none; border-color: #F17A82; background: white; }
   .task-del-btn { background: #FFE5E5; border: none; color: #E53935; border-radius: 8px; width: 28px; height: 28px; font-size: 1rem; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
   .add-task-row { display: flex; gap: 6px; margin-top: 6px; }
-  .add-task-emoji-input { width: 48px; padding: 8px 6px; border: 2px solid #E0D8FF; border-radius: 10px; font-size: 1rem; text-align: center; font-family: 'Nunito', sans-serif; }
-  .add-task-text-input { flex: 1; padding: 8px 10px; border: 2px solid #E0D8FF; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 700; }
-  .add-task-pts-input { width: 42px; padding: 8px 4px; border: 2px solid #E0D8FF; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 800; text-align: center; color: #7A5500; }
-  .add-task-pts-input:focus { outline: none; border-color: #6C63FF; }
-  .add-task-btn { background: #6C63FF; color: white; border: none; border-radius: 10px; padding: 8px 12px; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 800; cursor: pointer; }
+  .add-task-emoji-input { width: 48px; padding: 8px 6px; border: 2px solid #F9D0D3; border-radius: 10px; font-size: 1rem; text-align: center; font-family: 'Nunito', sans-serif; }
+  .add-task-text-input { flex: 1; padding: 8px 10px; border: 2px solid #F9D0D3; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 700; }
+  .add-task-pts-input { width: 42px; padding: 8px 4px; border: 2px solid #F9D0D3; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 800; text-align: center; color: #7A5500; }
+  .add-task-pts-input:focus { outline: none; border-color: #F17A82; }
+  .add-task-btn { background: #F17A82; color: white; border: none; border-radius: 10px; padding: 8px 12px; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 800; cursor: pointer; }
 
   .danger-btn { width: 100%; padding: 12px; border: none; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 800; cursor: pointer; transition: all 0.15s ease; margin-top: 4px; }
   .danger-btn.orange { background: #FFF3E0; color: #E65100; }
@@ -298,7 +302,7 @@
 
 
 <div class="time-toggle">
-  <button class="time-btn active-ochtend" id="btnOchtend" onclick="setTime('ochtend')">Ochtend</button>
+  <button class="time-btn" id="btnOchtend" onclick="setTime('ochtend')">Ochtend</button>
   <button class="time-btn" id="btnMiddag" onclick="setTime('middag')">Middag</button>
   <button class="time-btn" id="btnAvond" onclick="setTime('avond')">Avond</button>
 </div>
@@ -535,18 +539,20 @@
     <!-- Task editor -->
     <div class="panel-section">
       <h3>📋 Taken beheren</h3>
-      <div class="child-tab-row">
-        <button class="child-tab active-elisa" id="tabElisa" onclick="setEditorChild('elisa')">Elisa</button>
-        <button class="child-tab" id="tabSem" onclick="setEditorChild('sem')">Sem</button>
-      </div>
-      <div class="time-tab-row">
-        <button class="time-tab active" id="tabOchtend" onclick="setEditorTime('ochtend')">Ochtend</button>
-        <button class="time-tab" id="tabMiddag" onclick="setEditorTime('middag')">Middag</button>
-        <button class="time-tab" id="tabAvond" onclick="setEditorTime('avond')">Avond</button>
-      </div>
-      <div class="time-tab-row">
-        <button class="time-tab active" id="tabStandaard" onclick="setEditorCat('standaard')">Standaard</button>
-        <button class="time-tab" id="tabExtra" onclick="setEditorCat('extra')">Extra</button>
+      <div style="display:flex;gap:8px;margin-bottom:12px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:6px;flex:1">
+          <button class="time-tab active-elisa" id="tabElisa" onclick="setEditorChild('elisa')" style="width:100%;height:35px;box-sizing:border-box">Elisa</button>
+          <button class="time-tab" id="tabSem" onclick="setEditorChild('sem')" style="width:100%;height:35px;box-sizing:border-box">Sem</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;flex:1">
+          <button class="time-tab active" id="tabOchtend" onclick="setEditorTime('ochtend')" style="width:100%;height:35px;box-sizing:border-box">Ochtend</button>
+          <button class="time-tab" id="tabMiddag" onclick="setEditorTime('middag')" style="width:100%;height:35px;box-sizing:border-box">Middag</button>
+          <button class="time-tab" id="tabAvond" onclick="setEditorTime('avond')" style="width:100%;height:35px;box-sizing:border-box">Avond</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;flex:1">
+          <button class="time-tab active" id="tabStandaard" onclick="setEditorCat('standaard')" style="width:100%;height:35px;box-sizing:border-box">Standaard</button>
+          <button class="time-tab" id="tabExtra" onclick="setEditorCat('extra')" style="width:100%;height:35px;box-sizing:border-box">Extra</button>
+        </div>
       </div>
       <div class="task-editor" id="taskEditor"></div>
       <div class="add-task-row">
@@ -1056,6 +1062,9 @@ const initHour = new Date().getHours();
 let currentTime = initHour >= 19 ? 'avond' : initHour >= 12 ? 'middag' : 'ochtend';
 let state = loadState();
 
+// Meteen juiste tab tonen, nog voor cloud sync
+document.addEventListener('DOMContentLoaded', () => setTime(currentTime));
+
 function loadState() {
   try {
     const saved = localStorage.getItem('belonings_v3');
@@ -1313,8 +1322,8 @@ function setEditorCat(cat) {
 }
 
 function updateEditorTabs() {
-  document.getElementById('tabElisa').className = 'child-tab' + (editorChild==='elisa' ? ' active-elisa' : '');
-  document.getElementById('tabSem').className = 'child-tab' + (editorChild==='sem' ? ' active-sem' : '');
+  document.getElementById('tabElisa').className = 'time-tab' + (editorChild==='elisa' ? ' active-elisa' : '');
+  document.getElementById('tabSem').className = 'time-tab' + (editorChild==='sem' ? ' active-sem' : '');
   document.getElementById('tabOchtend').className = 'time-tab' + (editorTime==='ochtend' ? ' active' : '');
   document.getElementById('tabMiddag').className = 'time-tab' + (editorTime==='middag' ? ' active' : '');
   document.getElementById('tabAvond').className = 'time-tab' + (editorTime==='avond' ? ' active' : '');
@@ -1346,10 +1355,9 @@ function renderTaskEditor() {
 }
 
 function openPin() {
-  pinEntry = '';
-  updatePinDots();
-  document.getElementById('pinOverlay').classList.add('show');
+  openPanel();
 }
+
 
 function closePin() {
   pinEntry = '';
