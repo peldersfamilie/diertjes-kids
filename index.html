@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Elisa & Sem ⭐</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sem: #4A90D9;
+    --sem-light: #E8F2FB;
+    --sem-dark: #2A6BAD;
+    --elisa: #C9A8E0;
+    --elisa-light: #F3ECF9;
+    --elisa-dark: #8B5BAD;
+    --bg: #FDF8F0;
+    --card: #FFFFFF;
+    --text: #2D2D2D;
+    --muted: #999;
+    --done: #4CAF50;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding: 50px 25px;
+  }
+
+  @media (min-width: 768px) {
+    body { padding: 50px; }
+  }
+
+  @media (min-width: 1024px) {
+    body { padding: 50px 100px 100px; }
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(255,140,66,0.08) 0%, transparent 50%),
+      radial-gradient(circle at 85% 80%, rgba(123,97,255,0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  header {
+    text-align: center;
+    padding: 20px 16px 12px;
+    position: relative;
+    z-index: 1;
+  }
+
+  header h1 { font-size: 1.6rem; font-weight: 900; color: var(--text); letter-spacing: -0.5px; }
+  header .date { font-size: 0.85rem; color: var(--muted); font-weight: 600; margin-top: 2px; }
+
+  .time-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 16px 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .time-btn {
+    flex: 1; max-width: 140px; padding: 10px 16px; border: none; border-radius: 50px;
+    font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800;
+    cursor: pointer; transition: all 0.2s ease; background: #E8E0F0; color: #888;
+  }
+  .time-btn.active-ochtend { background: #FFD166; color: #7A5500; box-shadow: 0 4px 12px rgba(255,209,102,0.5); }
+  .time-btn.active-avond { background: #6C63FF; color: white; box-shadow: 0 4px 12px rgba(108,99,255,0.4); }
+
+  .grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    padding: 0 10px 20px; position: relative; z-index: 1;
+  }
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; gap: 20px; }
+  }
+
+  .child-card { background: var(--card); border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+
+  .card-header { padding: 14px 14px 10px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .sem .card-header { background: var(--sem-light); }
+  .elisa .card-header { background: var(--elisa-light); }
+
+  .child-name { font-size: 1.2rem; font-weight: 900; }
+  .sem .child-name { color: var(--sem-dark); }
+  .elisa .child-name { color: var(--elisa-dark); }
+
+  /* Dog container */
+  .dog-wrap {
+    position: relative;
+    width: 90px;
+    height: 105px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .dog-svg {
+    width: 82px;
+    height: 82px;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.2s ease;
+  }
+
+  .party-hat {
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-46%) rotate(-10deg);
+    width: 34px;
+    height: 34px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .dog-wrap.party .party-hat { opacity: 1; }
+
+  @keyframes task-bounce {
+    0%,100% { transform: translateY(0) rotate(0deg); }
+    30% { transform: translateY(-10px) rotate(-6deg); }
+    60% { transform: translateY(-4px) rotate(4deg); }
+  }
+
+  @keyframes party-dance {
+    0%,100% { transform: translateY(0) scale(1) rotate(0deg); }
+    25% { transform: translateY(-12px) scale(1.06) rotate(-4deg); }
+    50% { transform: translateY(-6px) scale(1.02) rotate(0deg); }
+    75% { transform: translateY(-10px) scale(1.04) rotate(4deg); }
+  }
+
+  .dog-wrap.task-done .dog-svg { animation: task-bounce 0.65s ease; }
+  .dog-wrap.party .dog-svg { animation: party-dance 0.9s ease infinite; }
+
+  .points-display {
+    display: flex; align-items: center; gap: 4px; font-size: 1rem; font-weight: 900;
+  }
+  .sem .points-display { color: var(--sem-dark); }
+  .elisa .points-display { color: var(--elisa-dark); }
+
+  .progress-wrap { padding: 0 14px 10px; }
+  .sem .progress-wrap { background: var(--sem-light); }
+  .elisa .progress-wrap { background: var(--elisa-light); }
+
+  .progress-bar { height: 8px; background: rgba(0,0,0,0.1); border-radius: 50px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 50px; transition: width 0.5s ease; }
+  .sem .progress-fill { background: var(--sem); }
+  .elisa .progress-fill { background: var(--elisa); }
+  .progress-text { font-size: 0.7rem; font-weight: 700; margin-top: 3px; opacity: 0.7; }
+  .sem .progress-text { color: var(--sem-dark); }
+  .elisa .progress-text { color: var(--elisa-dark); }
+
+  .tasks { padding: 10px; display: flex; flex-direction: column; gap: 6px; }
+
+  .task-btn {
+    display: flex; align-items: center; gap: 8px; padding: 8px 10px;
+    border: 2px solid transparent; border-radius: 14px; background: #F8F8F8;
+    cursor: pointer; transition: all 0.2s ease; font-family: 'Nunito', sans-serif;
+    font-size: 0.8rem; font-weight: 700; color: var(--text); text-align: left; width: 100%;
+  }
+  .task-btn:active { transform: scale(0.97); }
+  .task-btn.done { background: #F0FFF4; border-color: #B8EDCA; color: #2E7D32; }
+  .task-emoji { font-size: 1.3rem; flex-shrink: 0; width: 28px; text-align: center; }
+  .task-label { flex: 1; line-height: 1.2; }
+  .task-check {
+    width: 22px; height: 22px; border-radius: 50%; border: 2px solid #DDD;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; transition: all 0.2s ease;
+  }
+  .task-pts-badge { font-size: 0.7rem; font-weight: 900; background: #FFD166; color: #7A5500; border-radius: 20px; padding: 1px 6px; flex-shrink: 0; }
+  .task-btn.done .task-pts-badge { background: #B8EDCA; color: #2E7D32; }
+  .order-btns { display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
+  .order-btn { background: #EEE; border: none; border-radius: 5px; width: 22px; height: 18px; font-size: 0.6rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #666; }
+  .order-btn:active { background: #6C63FF; color: white; }
+  .task-pts-controls { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+  .task-pts-btn { width: 22px; height: 22px; border-radius: 50%; border: none; font-size: 0.85rem; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .task-pts-btn.m { background: #FFE5E5; color: #E53935; }
+  .task-pts-btn.p { background: #E8F5E9; color: #2E7D32; }
+  .task-pts-btn:active { transform: scale(0.9); }
+  .task-pts-val { font-size: 0.8rem; font-weight: 900; min-width: 18px; text-align: center; color: #7A5500; background: #FFD166; border-radius: 10px; padding: 1px 5px; }
+  .sem .task-btn:not(.done):hover { border-color: var(--sem); }
+  .elisa .task-btn:not(.done):hover { border-color: var(--elisa); }
+
+  .token-btn { position:absolute; top:10px; right:10px; background:rgba(255,255,255,0.7); border:2px solid rgba(0,0,0,0.08); border-radius:20px; padding:4px 10px; font-size:1.1rem; font-weight:900; cursor:pointer; display:flex; align-items:center; gap:4px; transition: all 0.15s ease; }
+  .token-btn:active { transform:scale(0.95); }
+  .token-question-row { display:flex; align-items:center; gap:10px; padding:10px 12px; background:#F8F8F8; border-radius:12px; font-size:0.85rem; font-weight:700; }
+  .token-question-label { flex:1; }
+  .token-answer-btn { width:34px; height:34px; border-radius:50%; border:none; font-size:1rem; cursor:pointer; transition:all 0.15s ease; display:flex; align-items:center; justify-content:center; }
+  .token-answer-btn:active { transform:scale(0.9); }
+  .token-yes { background:#E8F5E9; color:#2E7D32; }
+  .token-yes.active { background:#2E7D32; color:white; }
+  .token-no { background:#FFE5E5; color:#E53935; }
+  .token-no.active { background:#E53935; color:white; }
+  .token-editor-row { display:flex; align-items:center; gap:8px; padding:8px 10px; background:#F8F8F8; border-radius:12px; }
+  .token-editor-input { flex:1; font-size:0.85rem; font-weight:700; font-family:'Nunito',sans-serif; border:1.5px solid transparent; border-radius:8px; padding:4px 6px; background:transparent; color:var(--text); }
+  .sets-display { font-size: 1.1rem; min-height: 1.4rem; letter-spacing: 1px; }
+  .inwisselen-btn { padding:11px; border:none; border-radius:12px; background:#FFF3E0; color:#E65100; font-family:'Nunito',sans-serif; font-size:0.9rem; font-weight:800; cursor:pointer; transition:all 0.15s ease; width:100%; }
+  .inwisselen-btn:active { transform:scale(0.98); background:#FFE0B2; }
+  .bonus-banner.earned { background: #F0FFF4; color: #2E7D32; border-color: #B8EDCA; }
+  .extra-header { font-size: 0.75rem; font-weight: 900; color: #999; text-transform: uppercase; letter-spacing: 0.5px; margin: 10px 0 4px 4px; }
+  .confetti-wrap.show { display: block; }
+  .confetti-piece { position: absolute; animation: confetti-fall 1.8s ease-in forwards; }
+  @keyframes confetti-fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+
+
+  .bottom-bar { text-align: center; padding: 0 16px 28px; position: relative; z-index: 1; display: flex; justify-content: center; gap: 10px; }
+  .parent-btn {
+    background: none; border: 2px solid #E0D8FF; color: #AAA;
+    font-family: 'Nunito', sans-serif; font-size: 0.8rem; font-weight: 700;
+    padding: 8px 18px; border-radius: 50px; cursor: pointer; transition: all 0.2s ease;
+  }
+  .parent-btn:hover { border-color: #B0A0FF; color: #666; }
+
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; }
+  .overlay.show { display: flex; }
+
+  .pin-box { background: white; border-radius: 24px; padding: 28px 24px; width: 280px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+  .pin-box h2 { font-size: 1.2rem; font-weight: 900; color: var(--text); margin-bottom: 6px; }
+  .pin-box p { font-size: 0.8rem; color: var(--muted); margin-bottom: 16px; }
+  .pin-dots { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+  .pin-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #DDD; background: white; transition: all 0.15s ease; }
+  .pin-dot.filled { background: #6C63FF; border-color: #6C63FF; }
+  .pin-dot.error { background: #EF476F; border-color: #EF476F; animation: shake 0.3s ease; }
+  @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+  .pin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .pin-key { padding: 14px; border: none; border-radius: 14px; background: #F4F4F8; font-family: 'Nunito', sans-serif; font-size: 1.2rem; font-weight: 800; cursor: pointer; transition: all 0.15s ease; color: var(--text); }
+  .pin-key:active { transform: scale(0.93); background: #E8E0FF; }
+  .pin-key.del { font-size: 1rem; color: #999; }
+  .pin-cancel { margin-top: 12px; background: none; border: none; color: #BBB; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 700; cursor: pointer; }
+
+  .parent-panel { display: none; position: fixed; inset: 0; background: #F7F4FF; z-index: 200; overflow-y: auto; }
+  .parent-panel.show { display: block; }
+  .panel-header { background: #6C63FF; color: white; padding: 20px 20px 16px; display: flex; align-items: center; justify-content: space-between; }
+  .panel-header h2 { font-size: 1.2rem; font-weight: 900; }
+  .panel-close { background: rgba(255,255,255,0.2); border: none; color: white; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 800; padding: 6px 14px; border-radius: 50px; cursor: pointer; }
+  .panel-body { padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+  .panel-section { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .panel-section h3 { font-size: 0.95rem; font-weight: 900; color: var(--text); margin-bottom: 12px; }
+
+  .points-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #F0F0F0; }
+  .points-row:last-child { border-bottom: none; }
+  .points-name { font-weight: 800; font-size: 0.95rem; }
+  .points-controls { display: flex; align-items: center; gap: 8px; }
+  .pts-btn { width: 32px; height: 32px; border-radius: 50%; border: none; font-size: 1.1rem; font-weight: 900; cursor: pointer; transition: all 0.15s ease; display: flex; align-items: center; justify-content: center; }
+  .pts-btn.minus { background: #FFE5E5; color: #E53935; }
+  .pts-btn.plus { background: #E8F5E9; color: #2E7D32; }
+  .pts-btn:active { transform: scale(0.9); }
+  .pts-val { font-size: 1.1rem; font-weight: 900; min-width: 36px; text-align: center; }
+
+  .child-tab-row { display: flex; gap: 8px; margin-bottom: 12px; }
+  .child-tab { flex: 1; padding: 8px; border: 2px solid #E0D8FF; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 800; cursor: pointer; background: white; color: #999; transition: all 0.15s ease; }
+  .child-tab.active-sem { border-color: var(--sem); color: var(--sem-dark); background: var(--sem-light); }
+  .child-tab.active-elisa { border-color: var(--elisa); color: var(--elisa-dark); background: var(--elisa-light); }
+  .time-tab-row { display: flex; gap: 6px; margin-bottom: 10px; }
+  .time-tab { flex: 1; padding: 6px; border: 2px solid #E8E0F0; border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 0.8rem; font-weight: 800; cursor: pointer; background: white; color: #AAA; transition: all 0.15s ease; }
+  .time-tab.active { border-color: #6C63FF; color: #6C63FF; background: #EEEAFF; }
+
+  .task-editor { display: flex; flex-direction: column; gap: 8px; }
+  .task-editor-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: #F8F8F8; border-radius: 12px; cursor: default; transition: box-shadow 0.15s ease; }
+  .task-editor-row.dragging { opacity: 0.4; }
+  .task-editor-row.drag-over { box-shadow: 0 0 0 2px #6C63FF; background: #EEEAFF; }
+  .drag-handle { color: #CCC; font-size: 1.1rem; cursor: grab; flex-shrink: 0; padding: 0 2px; user-select: none; }
+  .drag-handle:active { cursor: grabbing; }
+  .task-editor-emoji { font-size: 1.2rem; width: 28px; text-align: center; flex-shrink: 0; }
+  .task-editor-input { flex: 1; font-size: 0.85rem; font-weight: 700; font-family: 'Nunito', sans-serif; border: 1.5px solid transparent; border-radius: 8px; padding: 4px 6px; background: transparent; color: var(--text); }
+  .task-editor-input:focus { outline: none; border-color: #6C63FF; background: white; }
+  .task-del-btn { background: #FFE5E5; border: none; color: #E53935; border-radius: 8px; width: 28px; height: 28px; font-size: 1rem; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .add-task-row { display: flex; gap: 6px; margin-top: 6px; }
+  .add-task-emoji-input { width: 48px; padding: 8px 6px; border: 2px solid #E0D8FF; border-radius: 10px; font-size: 1rem; text-align: center; font-family: 'Nunito', sans-serif; }
+  .add-task-text-input { flex: 1; padding: 8px 10px; border: 2px solid #E0D8FF; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 700; }
+  .add-task-pts-input { width: 42px; padding: 8px 4px; border: 2px solid #E0D8FF; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 800; text-align: center; color: #7A5500; }
+  .add-task-pts-input:focus { outline: none; border-color: #6C63FF; }
+  .add-task-btn { background: #6C63FF; color: white; border: none; border-radius: 10px; padding: 8px 12px; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 800; cursor: pointer; }
+
+  .danger-btn { width: 100%; padding: 12px; border: none; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 800; cursor: pointer; transition: all 0.15s ease; margin-top: 4px; }
+  .danger-btn.orange { background: #FFF3E0; color: #E65100; }
+  .danger-btn.red { background: #FFE5E5; color: #C62828; }
+  .danger-btn:active { transform: scale(0.98); }
+</style>
+</head>
+<body>
+
+
+<div class="time-toggle">
+  <button class="time-btn active-ochtend" id="btnOchtend" onclick="setTime('ochtend')">Ochtend</button>
+  <button class="time-btn" id="btnAvond" onclick="setTime('avond')">Avond</button>
+</div>
+
+
+<div class="grid">
+
+  <!-- ELISA LINKS -->
+  <div class="child-card elisa">
+    <div class="card-header" style="position:relative">
+      <div style="position:absolute;top:10px;right:10px;display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="token-btn" style="position:static" onclick="openTokenPopup('elisa')" title="Bloemetjes">
+          🌸 <span id="tokenCountElisa" style="font-size:0.85rem">0</span>
+        </button>
+        <div class="sets-display" id="tokenSetsElisa" style="font-size:0.85rem;letter-spacing:1px;text-align:center"></div>
+      </div>
+      <div class="child-name">Elisa</div>      <div class="dog-wrap" id="dogWrapElisa">
+        <svg class="party-hat" viewBox="0 0 40 42" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="he" x="0" y="0" width="7" height="7" patternUnits="userSpaceOnUse">
+              <rect width="3.5" height="7" fill="#A8DADC"/>
+            </pattern>
+          </defs>
+          <polygon points="20,1 4,36 36,36" fill="#7B61FF"/>
+          <polygon points="20,1 4,36 36,36" fill="url(#he)" opacity="0.45"/>
+          <ellipse cx="20" cy="36" rx="16" ry="5" fill="#B8A4E8"/>
+          <circle cx="20" cy="1" r="3.5" fill="#FFD166"/>
+          <circle cx="11" cy="19" r="2" fill="#FFD166"/>
+          <circle cx="28" cy="24" r="2" fill="#FF8FAB"/>
+          <circle cx="17" cy="30" r="1.5" fill="white"/>
+        </svg>
+        <svg class="dog-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <!-- Body: round fluffy -->
+          <ellipse cx="50" cy="68" rx="26" ry="22" fill="#FFE566"/>
+          <!-- Head -->
+          <circle cx="50" cy="40" r="22" fill="#FFE566"/>
+          <!-- Fluffy cheeks -->
+          <circle cx="30" cy="46" r="10" fill="#FFF0A0" opacity="0.7"/>
+          <circle cx="70" cy="46" r="10" fill="#FFF0A0" opacity="0.7"/>
+          <!-- Small wing left -->
+          <ellipse cx="26" cy="68" rx="8" ry="12" fill="#F5CC00" transform="rotate(-15 26 68)"/>
+          <!-- Small wing right -->
+          <ellipse cx="74" cy="68" rx="8" ry="12" fill="#F5CC00" transform="rotate(15 74 68)"/>
+          <!-- Eyes -->
+          <g id="eyes-elisa">
+            <circle cx="41" cy="38" r="4" fill="#2D2D2D"/>
+            <circle cx="59" cy="38" r="4" fill="#2D2D2D"/>
+            <circle cx="42.5" cy="36.5" r="1.4" fill="white"/>
+            <circle cx="60.5" cy="36.5" r="1.4" fill="white"/>
+          </g>
+          <!-- Sleepy lids -->
+          <g id="lids-elisa" opacity="0">
+            <path d="M37 36 Q41 32 45 36" stroke="#F5CC00" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            <path d="M55 36 Q59 32 63 36" stroke="#F5CC00" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- Beak -->
+          <polygon points="50,46 44,52 56,52" fill="#F0A030"/>
+          <!-- Mouth line in beak -->
+          <path id="mouth-elisa" d="M46 51 Q50 51 54 51" stroke="#C07010" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <!-- Blush -->
+          <ellipse id="blush1-elisa" cx="33" cy="47" rx="6" ry="4" fill="#FFB3BA" opacity="0"/>
+          <ellipse id="blush2-elisa" cx="67" cy="47" rx="6" ry="4" fill="#FFB3BA" opacity="0"/>
+          <!-- Tongue (party) -->
+          <ellipse id="tongue-elisa" cx="50" cy="56" rx="4" ry="3" fill="#FF6B8A" opacity="0"/>
+          <!-- Feet -->
+          <line x1="40" y1="89" x2="34" y2="96" stroke="#F0A030" stroke-width="3" stroke-linecap="round"/>
+          <line x1="40" y1="89" x2="40" y2="97" stroke="#F0A030" stroke-width="3" stroke-linecap="round"/>
+          <line x1="40" y1="89" x2="46" y2="96" stroke="#F0A030" stroke-width="3" stroke-linecap="round"/>
+          <line x1="60" y1="89" x2="54" y2="96" stroke="#F0A030" stroke-width="3" stroke-linecap="round"/>
+          <line x1="60" y1="89" x2="60" y2="97" stroke="#F0A030" stroke-width="3" stroke-linecap="round"/>
+          <line x1="60" y1="89" x2="66" y2="96" stroke="#F0A030" stroke-width="3" stroke-linecap="round"/>
+          <!-- Tuft on head -->
+          <path d="M44 18 Q48 8 50 16" stroke="#F5CC00" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M50 16 Q52 6 54 15" stroke="#F5CC00" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M54 15 Q58 10 57 19" stroke="#F5CC00" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="points-display">
+        ⭐ <span id="pointsElisa">0</span>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="progressElisa" style="width:0%"></div></div>
+      <div class="progress-text" id="progressTextElisa">0 van 0 gedaan</div>
+    </div>
+    <div class="tasks" id="tasksElisa"></div>
+  </div>
+
+  <!-- SEM RECHTS -->
+  <div class="child-card sem">
+    <div class="card-header" style="position:relative">
+      <div style="position:absolute;top:10px;right:10px;display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="token-btn" style="position:static" onclick="openTokenPopup('sem')" title="Wielen">
+          🚗 <span id="tokenCountSem" style="font-size:0.85rem">0</span>
+        </button>
+        <div class="sets-display" id="tokenSetsSem" style="font-size:0.85rem;letter-spacing:1px;text-align:center"></div>
+      </div>
+      <div class="child-name">Sem</div>
+      <div class="dog-wrap" id="dogWrapSem">
+        <svg class="party-hat" viewBox="0 0 40 42" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="hs" x="0" y="0" width="7" height="7" patternUnits="userSpaceOnUse">
+              <rect width="3.5" height="7" fill="#FFD166"/>
+            </pattern>
+          </defs>
+          <polygon points="20,1 4,36 36,36" fill="#2A6BAD"/>
+          <polygon points="20,1 4,36 36,36" fill="url(#hs)" opacity="0.55"/>
+          <ellipse cx="20" cy="36" rx="16" ry="5" fill="#7AB8E8"/>
+          <circle cx="20" cy="1" r="3.5" fill="#FFD166"/>
+          <circle cx="11" cy="19" r="2" fill="#FFD166"/>
+          <circle cx="28" cy="24" r="2" fill="#A8DADC"/>
+          <circle cx="17" cy="30" r="1.5" fill="white"/>
+        </svg>
+        <svg class="dog-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="50" cy="68" rx="25" ry="21" fill="#7AB8E8"/>
+          <circle cx="50" cy="42" r="21" fill="#7AB8E8"/>
+          <ellipse cx="32" cy="31" rx="9" ry="13" fill="#3D7DB8" transform="rotate(-15 32 31)"/>
+          <ellipse cx="68" cy="31" rx="9" ry="13" fill="#3D7DB8" transform="rotate(15 68 31)"/>
+          <g id="eyes-sem">
+            <circle cx="43" cy="40" r="3.5" fill="#2D2D2D"/>
+            <circle cx="57" cy="40" r="3.5" fill="#2D2D2D"/>
+            <circle cx="44.2" cy="38.8" r="1.2" fill="white"/>
+            <circle cx="58.2" cy="38.8" r="1.2" fill="white"/>
+          </g>
+          <g id="lids-sem" opacity="0">
+            <rect x="39" y="37" width="10" height="5.5" rx="2.5" fill="#3D7DB8"/>
+            <rect x="52.5" y="37" width="10" height="5.5" rx="2.5" fill="#3D7DB8"/>
+          </g>
+          <ellipse cx="50" cy="47" rx="5" ry="3.5" fill="#1A4A7A"/>
+          <path id="mouth-sem" d="M44 52 Q50 52 56 52" stroke="#1A4A7A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <ellipse id="blush1-sem" cx="36" cy="49" rx="5.5" ry="3.5" fill="#FFB3BA" opacity="0"/>
+          <ellipse id="blush2-sem" cx="64" cy="49" rx="5.5" ry="3.5" fill="#FFB3BA" opacity="0"/>
+          <ellipse id="tongue-sem" cx="50" cy="58" rx="5" ry="4" fill="#FF6B8A" opacity="0"/>
+          <path d="M73 63 Q90 52 85 38" stroke="#7AB8E8" stroke-width="7" fill="none" stroke-linecap="round"/>
+          <ellipse cx="37" cy="87" rx="8" ry="5.5" fill="#3D7DB8"/>
+          <ellipse cx="63" cy="87" rx="8" ry="5.5" fill="#3D7DB8"/>
+        </svg>
+      </div>
+      <div class="points-display">
+        ⭐ <span id="pointsSem">0</span>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="progressSem" style="width:0%"></div></div>
+      <div class="progress-text" id="progressTextSem">0 van 0 gedaan</div>
+    </div>
+    <div class="tasks" id="tasksSem"></div>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <button class="parent-btn" onclick="openPin()">🔒 Ouders</button>
+</div>
+
+<!-- Token popup -->
+<div class="overlay" id="tokenOverlay">
+  <div class="pin-box" style="width:460px;position:relative">
+    <button onclick="closeTokenPopup()" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:1.2rem;cursor:pointer;color:#BBB">✕</button>
+    <h2 id="tokenPopupTitle">🌸 Bloemetjes</h2>
+    <p id="tokenPopupSub" style="margin-bottom:16px">Vandaag verdiend?</p>
+    <div id="tokenQuestions" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;text-align:left"></div>
+    <div id="tokenInwisselRow" style="display:none;margin-bottom:12px"></div>
+    <div style="display:flex;gap:8px">
+      <button class="add-task-btn" style="flex:1;padding:12px;font-size:0.95rem" onclick="closeTokenPopup()">Klaar</button>
+    </div>
+  </div>
+</div>
+
+<!-- PIN overlay -->
+<div class="overlay" id="pinOverlay">
+  <div class="pin-box">
+    <h2>🔒 Ouderpaneel</h2>
+    <p>Voer de pincode in</p>
+    <div class="pin-dots">
+      <div class="pin-dot" id="d0"></div>
+      <div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div>
+      <div class="pin-dot" id="d3"></div>
+    </div>
+    <div class="pin-grid">
+      <button class="pin-key" onclick="pinKey('1')">1</button>
+      <button class="pin-key" onclick="pinKey('2')">2</button>
+      <button class="pin-key" onclick="pinKey('3')">3</button>
+      <button class="pin-key" onclick="pinKey('4')">4</button>
+      <button class="pin-key" onclick="pinKey('5')">5</button>
+      <button class="pin-key" onclick="pinKey('6')">6</button>
+      <button class="pin-key" onclick="pinKey('7')">7</button>
+      <button class="pin-key" onclick="pinKey('8')">8</button>
+      <button class="pin-key" onclick="pinKey('9')">9</button>
+      <button class="pin-key del" onclick="pinKey('del')">⌫</button>
+      <button class="pin-key" onclick="pinKey('0')">0</button>
+      <button class="pin-key del" onclick="closePin()">✕</button>
+    </div>
+  </div>
+</div>
+
+<!-- Parent panel -->
+<div class="parent-panel" id="parentPanel">
+  <div class="panel-header">
+    <h2>🔒 Ouderpaneel</h2>
+    <button class="panel-close" onclick="closePanel()">Sluiten</button>
+  </div>
+  <div class="panel-body">
+
+    <!-- Points -->
+    <div class="panel-section">
+      <h3>⭐ Punten aanpassen</h3>
+      <div class="points-row">
+        <span class="points-name" style="color:var(--elisa-dark)">Elisa</span>
+        <div class="points-controls">
+          <button class="pts-btn minus" onclick="adjustPoints('elisa',-1)">−</button>
+          <span class="pts-val" id="panelPointsElisa">0</span>
+          <button class="pts-btn plus" onclick="adjustPoints('elisa',1)">+</button>
+        </div>
+      </div>
+      <div class="points-row">
+        <span class="points-name" style="color:var(--sem-dark)">Sem</span>
+        <div class="points-controls">
+          <button class="pts-btn minus" onclick="adjustPoints('sem',-1)">−</button>
+          <span class="pts-val" id="panelPointsSem">0</span>
+          <button class="pts-btn plus" onclick="adjustPoints('sem',1)">+</button>
+        </div>
+      </div>
+      <div class="points-row">
+        <span class="points-name" style="color:#666">🎯 Bonus standaard taken</span>
+        <div class="points-controls">
+          <button class="pts-btn minus" onclick="adjustBonusPts(-1)">−</button>
+          <span class="pts-val" id="panelBonusPts">5</span>
+          <button class="pts-btn plus" onclick="adjustBonusPts(1)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task editor -->
+    <div class="panel-section">
+      <h3>📋 Taken beheren</h3>
+      <div class="child-tab-row">
+        <button class="child-tab active-elisa" id="tabElisa" onclick="setEditorChild('elisa')">Elisa</button>
+        <button class="child-tab" id="tabSem" onclick="setEditorChild('sem')">Sem</button>
+      </div>
+      <div class="time-tab-row">
+        <button class="time-tab active" id="tabOchtend" onclick="setEditorTime('ochtend')">Ochtend</button>
+        <button class="time-tab" id="tabAvond" onclick="setEditorTime('avond')">Avond</button>
+      </div>
+      <div class="time-tab-row">
+        <button class="time-tab active" id="tabStandaard" onclick="setEditorCat('standaard')">Standaard</button>
+        <button class="time-tab" id="tabExtra" onclick="setEditorCat('extra')">Extra</button>
+      </div>
+      <div class="task-editor" id="taskEditor"></div>
+      <div class="add-task-row">
+        <input class="add-task-emoji-input" id="newEmoji" placeholder="🎯" maxlength="2"/>
+        <input class="add-task-text-input" id="newLabel" placeholder="Nieuwe taak..."/>
+        <input class="add-task-pts-input" id="newPts" type="number" min="1" max="10" value="1" placeholder="pts"/>
+        <button class="add-task-btn" onclick="addTask()">+</button>
+      </div>
+    </div>
+
+    <!-- Token vragen -->
+    <div class="panel-section">
+      <h3>🌸 Bloem & wiel vragen</h3>
+      <div class="child-tab-row">
+        <button class="child-tab active-elisa" id="tabTokenElisa" onclick="setTokenEditor('elisa')">Elisa</button>
+        <button class="child-tab" id="tabTokenSem" onclick="setTokenEditor('sem')">Sem</button>
+      </div>
+      <div id="tokenQuestionEditor" style="display:flex;flex-direction:column;gap:8px;margin-top:8px"></div>
+      <div style="margin-top:10px;display:flex;align-items:center;gap:10px;padding:8px 10px;background:#F8F8F8;border-radius:12px;">
+        <span style="font-size:0.85rem;font-weight:800;flex:1">Icoontje knop</span>
+        <input class="add-task-emoji-input" id="tokenIconInput" maxlength="2" style="width:48px" onchange="updateTokenIcon(this.value)"/>
+      </div>
+      <div style="margin-top:12px;border-top:1px solid #F0F0F0;padding-top:12px">
+        <div class="points-row">
+          <span class="points-name" style="color:#666">🎁 Inwisselen bij</span>
+          <div class="points-controls">
+            <button class="pts-btn minus" onclick="adjustTokenThreshold(-1)">−</button>
+            <span class="pts-val" id="panelTokenThreshold">8</span>
+            <button class="pts-btn plus" onclick="adjustTokenThreshold(1)">+</button>
+          </div>
+        </div>
+        <div class="points-row">
+          <span class="points-name" style="color:var(--elisa-dark)">Elisa totaal</span>
+          <div class="points-controls">
+            <button class="pts-btn minus" onclick="adjustTokens('elisa',-1)">−</button>
+            <span class="pts-val" id="panelTokensElisa">0</span>
+            <button class="pts-btn plus" onclick="adjustTokens('elisa',1)">+</button>
+          </div>
+        </div>
+        <div class="points-row">
+          <span class="points-name" style="color:var(--elisa-dark)">💛 Elisa hartjes</span>
+          <div class="points-controls">
+            <button class="pts-btn minus" onclick="adjustCoins('elisa',-1)">−</button>
+            <span class="pts-val" id="panelCoinsElisa">0</span>
+            <button class="pts-btn plus" onclick="adjustCoins('elisa',1)">+</button>
+          </div>
+        </div>
+        <div class="points-row">
+          <span class="points-name" style="color:var(--sem-dark)">Sem totaal</span>
+          <div class="points-controls">
+            <button class="pts-btn minus" onclick="adjustTokens('sem',-1)">−</button>
+            <span class="pts-val" id="panelTokensSem">0</span>
+            <button class="pts-btn plus" onclick="adjustTokens('sem',1)">+</button>
+          </div>
+        </div>
+        <div class="points-row">
+          <span class="points-name" style="color:var(--sem-dark)">💛 Sem hartjes</span>
+          <div class="points-controls">
+            <button class="pts-btn minus" onclick="adjustCoins('sem',-1)">−</button>
+            <span class="pts-val" id="panelCoinsSem">0</span>
+            <button class="pts-btn plus" onclick="adjustCoins('sem',1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="confetti-wrap" id="confetti"></div>
+
+<script>
+const TASKS = {
+  sem: {
+    ochtend: {
+      standaard: [
+        { id: 'bril', emoji: '👓', label: 'Bril op', pts: 1 },
+        { id: 'ontbijt', emoji: '🥣', label: 'Ontbijten', pts: 1 },
+        { id: 'vitamine', emoji: '💊', label: 'Vitamine', pts: 1 },
+        { id: 'bord', emoji: '🍽️', label: 'Bord & beker weg', pts: 1 },
+        { id: 'tanden-o', emoji: '🦷', label: 'Tanden poetsen', pts: 1 },
+        { id: 'schoenen', emoji: '👟', label: 'Schoenen aan', pts: 1 },
+      ],
+      extra: []
+    },
+    avond: {
+      standaard: [
+        { id: 'opruimen', emoji: '🧹', label: 'Opruimen', pts: 1 },
+        { id: 'mandje', emoji: '🧺', label: 'Mandje opruimen', pts: 1 },
+        { id: 'tanden-a', emoji: '🦷', label: 'Tanden poetsen', pts: 1 },
+        { id: 'wc1', emoji: '🚽', label: 'WC', pts: 1 },
+        { id: 'omkleden', emoji: '🩳', label: 'Omkleden', pts: 1 },
+        { id: 'verhaal', emoji: '📖', label: 'Verhaal lezen', pts: 1 },
+        { id: 'wc2', emoji: '🚽', label: 'WC (nog een keer)', pts: 1 },
+      ],
+      extra: []
+    }
+  },
+  elisa: {
+    ochtend: {
+      standaard: [
+        { id: 'ontbijt', emoji: '🥣', label: 'Ontbijten', pts: 1 },
+        { id: 'vitamine', emoji: '💊', label: 'Vitamine', pts: 1 },
+        { id: 'bord', emoji: '🍽️', label: 'Bord & beker weg', pts: 1 },
+        { id: 'tanden-o', emoji: '🦷', label: 'Tanden poetsen', pts: 1 },
+        { id: 'schoenen', emoji: '👟', label: 'Schoenen aan', pts: 1 },
+      ],
+      extra: []
+    },
+    avond: {
+      standaard: [
+        { id: 'opruimen', emoji: '🧹', label: 'Opruimen', pts: 1 },
+        { id: 'mandje', emoji: '🧺', label: 'Mandje opruimen', pts: 1 },
+        { id: 'tanden-a', emoji: '🦷', label: 'Tanden poetsen', pts: 1 },
+        { id: 'wc1', emoji: '🚽', label: 'WC', pts: 1 },
+        { id: 'omkleden', emoji: '🩳', label: 'Omkleden', pts: 1 },
+        { id: 'verhaal', emoji: '📖', label: 'Verhaal lezen', pts: 1 },
+      ],
+      extra: []
+    }
+  }
+};
+
+let BONUS_PTS = 5;
+let TOKEN_THRESHOLD = 8;
+
+// ---- TOKEN VRAGEN ----
+const TOKEN_QUESTIONS = {
+  elisa: [
+    { emoji: '🌸', label: 'Vraag 1 voor Elisa' },
+    { emoji: '🌸', label: 'Vraag 2 voor Elisa' }
+  ],
+  sem: [
+    { emoji: '🚗', label: 'Vraag 1 voor Sem' },
+    { emoji: '🚗', label: 'Vraag 2 voor Sem' }
+  ]
+};
+
+const TOKEN_ICONS = {
+  elisa: '🌸',
+  sem: '🚗'
+};
+let tokenEditorChild = 'elisa';
+
+function openTokenPopup(child) {
+  tokenPopupChild = child;
+  const isElisa = child === 'elisa';
+  const total = state[child].totalTokens || 0;
+  const coins = Math.floor(total / TOKEN_THRESHOLD);
+  const remainder = total % TOKEN_THRESHOLD;
+  const emoji = isElisa ? '🌸' : '🚗';
+
+  document.getElementById('tokenPopupTitle').textContent = isElisa ? '🌸 Bloemetjes' : '🚗 Wielen';
+
+  const coinsText = coins > 0
+    ? `${remainder} ${emoji} · ${'💛'.repeat(Math.min(coins, 10))}${coins > 10 ? ` (${coins})` : ''}`
+    : `${remainder} ${emoji}`;
+  document.getElementById('tokenPopupSub').textContent = coinsText;
+
+  const today = todayString();
+  const answers = state[child].tokenAnswers?.[today] || {};
+  const container = document.getElementById('tokenQuestions');
+
+  container.innerHTML = TOKEN_QUESTIONS[child].map((q, i) => {
+    const val = answers[i];
+    return `<div class="token-question-row">
+      <span style="font-size:1.2rem">${q.emoji}</span>
+      <span class="token-question-label">${q.label}</span>
+      <button class="token-answer-btn token-yes${val===true?' active':''}" onclick="answerToken(${i},true)">✓</button>
+      <button class="token-answer-btn token-no${val===false?' active':''}" onclick="answerToken(${i},false)">✗</button>
+    </div>`;
+  }).join('');
+
+  // Inwisselen knop - alleen tonen als er minstens 1 volledige set is
+  const inwisselRow = document.getElementById('tokenInwisselRow');
+  if (coins >= 1) {
+    inwisselRow.style.display = 'block';
+    inwisselRow.innerHTML = `<button class="inwisselen-btn" onclick="confirmInwisselen()">
+      💛 Inwisselen (${coins} muntje${coins !== 1 ? 's' : ''} beschikbaar)
+    </button>`;
+  } else {
+    inwisselRow.style.display = 'none';
+  }
+
+  document.getElementById('tokenOverlay').classList.add('show');
+}
+
+function answerToken(index, value) {
+  const child = tokenPopupChild;
+  const today = todayString();
+  if (!state[child].tokenAnswers) state[child].tokenAnswers = {};
+  if (!state[child].tokenAnswers[today]) state[child].tokenAnswers[today] = {};
+
+  const prev = state[child].tokenAnswers[today][index];
+
+  if (prev === true && value !== true) {
+    state[child].totalTokens = Math.max(0, (state[child].totalTokens || 0) - 1);
+  } else if (prev !== true && value === true) {
+    state[child].totalTokens = (state[child].totalTokens || 0) + 1;
+  }
+
+  state[child].tokenAnswers[today][index] = value;
+  saveState();
+  updateTokenDisplay(child);
+  openTokenPopup(child);
+}
+
+function confirmInwisselen() {
+  const child = tokenPopupChild;
+  const total = state[child].totalTokens || 0;
+  const maxCoins = Math.floor(total / TOKEN_THRESHOLD);
+  const inwisselRow = document.getElementById('tokenInwisselRow');
+
+  let coinOptions = '';
+  for (let i = 1; i <= maxCoins; i++) {
+    coinOptions += `<button class="time-tab${i===1?' active':''}" style="flex:1;padding:8px" onclick="selectSets(this,${i})">💛${i > 1 ? '×'+i : ''}</button>`;
+  }
+
+  inwisselRow.innerHTML = `
+    <div style="background:#FFF3E0;border-radius:12px;padding:14px;text-align:center">
+      <div style="font-weight:800;font-size:0.9rem;margin-bottom:10px">Hoeveel hartjes wil je inleveren?</div>
+      <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">${coinOptions}</div>
+      <div style="display:flex;gap:8px">
+        <button class="danger-btn red" style="flex:1;margin:0;padding:10px" onclick="doInwisselen()">Ja, inleveren</button>
+        <button class="danger-btn orange" style="flex:1;margin:0;padding:10px" onclick="openTokenPopup('${child}')">Annuleren</button>
+      </div>
+    </div>`;
+}
+
+let selectedSets = 1;
+
+function selectSets(btn, n) {
+  selectedSets = n;
+  btn.closest('div').querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function doInwisselen() {
+  const child = tokenPopupChild;
+  const toRemove = selectedSets * TOKEN_THRESHOLD;
+  state[child].totalTokens = Math.max(0, (state[child].totalTokens || 0) - toRemove);
+  selectedSets = 1;
+  saveState();
+  updateTokenDisplay(child);
+  openTokenPopup(child);
+}
+
+function closeTokenPopup() {
+  document.getElementById('tokenOverlay').classList.remove('show');
+  tokenPopupChild = null;
+}
+
+function updateTokenDisplay(child) {
+  const count = state[child].totalTokens || 0;
+  const coins = Math.floor(count / TOKEN_THRESHOLD);
+  const remainder = count % TOKEN_THRESHOLD;
+  const emoji = TOKEN_ICONS[child] || (child === 'elisa' ? '🌸' : '🚗');
+
+  const countEl = document.getElementById('tokenCount' + cap(child));
+  if (countEl) countEl.textContent = remainder;
+
+  const setsEl = document.getElementById('tokenSets' + cap(child));
+  if (setsEl) setsEl.textContent = coins > 0 ? '💛'.repeat(Math.min(coins, 20)) : '';
+
+  const dogWrap = document.getElementById('dogWrap' + cap(child));
+  const header = dogWrap ? dogWrap.closest('.card-header') : null;
+  const btn = header ? header.querySelector('.token-btn') : null;
+  if (btn && btn.childNodes[0]) btn.childNodes[0].textContent = emoji + ' ';
+}
+
+// ---- TOKEN EDITOR ----
+function setTokenEditor(child) {
+  tokenEditorChild = child;
+  document.getElementById('tabTokenElisa').className = 'child-tab' + (child==='elisa' ? ' active-elisa' : '');
+  document.getElementById('tabTokenSem').className = 'child-tab' + (child==='sem' ? ' active-sem' : '');
+  document.getElementById('tokenIconInput').value = TOKEN_ICONS[child] || '';
+  renderTokenEditor();
+}
+
+function updateTokenIcon(value) {
+  if (!value.trim()) return;
+  TOKEN_ICONS[tokenEditorChild] = value.trim();
+  updateTokenDisplay(tokenEditorChild);
+  saveTasksToCloud();
+}
+
+function renderTokenEditor() {
+  const container = document.getElementById('tokenQuestionEditor');
+  container.innerHTML = TOKEN_QUESTIONS[tokenEditorChild].map((q, i) => `
+    <div class="token-editor-row">
+      <input class="add-task-emoji-input" value="${q.emoji}" maxlength="2" onchange="renameTokenQuestion(${i}, 'emoji', this.value)" />
+      <input class="token-editor-input" value="${q.label}" onchange="renameTokenQuestion(${i}, 'label', this.value)" />
+    </div>
+  `).join('');
+}
+
+function renameTokenQuestion(index, field, value) {
+  if (!value.trim()) return;
+  TOKEN_QUESTIONS[tokenEditorChild][index][field] = value.trim();
+  saveTasksToCloud();
+}
+
+// ---- SUPABASE ----
+const SUPA_URL = 'https://aojpnbcstgfnetrkpkhp.supabase.co';
+const SUPA_KEY = 'sb_publishable_pwvjoDPFtDPlBl__Abg6QQ_Zs1wkDKo';
+
+async function supaGet(kind) {
+  try {
+    const res = await fetch(`${SUPA_URL}/rest/v1/punten?id=eq.${kind}&select=punten`, {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    });
+    const data = await res.json();
+    return data[0]?.punten ?? 0;
+  } catch(e) { return null; }
+}
+
+async function supaSet(kind, punten) {
+  try {
+    await fetch(`${SUPA_URL}/rest/v1/punten?id=eq.${kind}`, {
+      method: 'PATCH',
+      headers: {
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ punten, updated_at: new Date().toISOString() })
+    });
+  } catch(e) {}
+}
+
+async function supaGetVoortgang(kind) {
+  try {
+    const res = await fetch(`${SUPA_URL}/rest/v1/voortgang?id=eq.${kind}&select=datum,data`, {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    });
+    const data = await res.json();
+    return data[0] ?? null;
+  } catch(e) { return null; }
+}
+
+async function supaSetVoortgang(kind, datum, data) {
+  try {
+    await fetch(`${SUPA_URL}/rest/v1/voortgang?id=eq.${kind}`, {
+      method: 'PATCH',
+      headers: {
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ datum, data, updated_at: new Date().toISOString() })
+    });
+  } catch(e) {}
+}
+
+async function supaGetTaken(id) {
+  try {
+    const res = await fetch(`${SUPA_URL}/rest/v1/taken?id=eq.${id}&select=data`, {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    });
+    const result = await res.json();
+    return result[0]?.data ?? null;
+  } catch(e) { return null; }
+}
+
+async function supaSetTaken(id, data) {
+  try {
+    await fetch(`${SUPA_URL}/rest/v1/taken?id=eq.${id}`, {
+      method: 'PATCH',
+      headers: {
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ data, updated_at: new Date().toISOString() })
+    });
+  } catch(e) {}
+}
+
+async function syncTasksFromCloud() {
+  const [tasksData, tokenData] = await Promise.all([
+    supaGetTaken('tasks'),
+    supaGetTaken('token_questions')
+  ]);
+
+  if (tasksData && Object.keys(tasksData).length > 0) {
+    for (const child of ['sem', 'elisa']) {
+      for (const time of ['ochtend', 'avond']) {
+        if (tasksData[child]?.[time]?.standaard) TASKS[child][time].standaard = tasksData[child][time].standaard;
+        if (tasksData[child]?.[time]?.extra) TASKS[child][time].extra = tasksData[child][time].extra;
+      }
+    }
+    if (tasksData.bonus_pts !== undefined) BONUS_PTS = tasksData.bonus_pts;
+    if (tasksData.token_threshold !== undefined) TOKEN_THRESHOLD = tasksData.token_threshold;
+    if (tasksData.token_icons) { TOKEN_ICONS.elisa = tasksData.token_icons.elisa || TOKEN_ICONS.elisa; TOKEN_ICONS.sem = tasksData.token_icons.sem || TOKEN_ICONS.sem; }
+  }
+
+  if (tokenData && Object.keys(tokenData).length > 0) {
+    for (const child of ['sem', 'elisa']) {
+      if (tokenData[child]) TOKEN_QUESTIONS[child] = tokenData[child];
+    }
+  }
+
+  renderTasks('sem'); renderTasks('elisa');
+  updateTokenDisplay('sem'); updateTokenDisplay('elisa');
+  updateBonusPtsDisplay();
+}
+
+function saveTasksToCloud() {
+  supaSetTaken('tasks', {
+    sem: TASKS.sem,
+    elisa: TASKS.elisa,
+    bonus_pts: BONUS_PTS,
+    token_threshold: TOKEN_THRESHOLD,
+    token_icons: TOKEN_ICONS
+  });
+  supaSetTaken('token_questions', {
+    sem: TOKEN_QUESTIONS.sem,
+    elisa: TOKEN_QUESTIONS.elisa
+  });
+}
+
+function todayString() {
+  const d = new Date();
+  return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+}
+
+async function syncPointsFromCloud() {
+  const [semPts, elisaPts] = await Promise.all([supaGet('sem'), supaGet('elisa')]);
+  if (semPts !== null) state.sem.totalPoints = semPts;
+  if (elisaPts !== null) state.elisa.totalPoints = elisaPts;
+  updatePoints('sem');
+  updatePoints('elisa');
+}
+
+async function syncVoortgangFromCloud() {
+  const today = todayString();
+  const [semV, elisaV] = await Promise.all([supaGetVoortgang('sem'), supaGetVoortgang('elisa')]);
+
+  for (const [kind, v] of [['sem', semV], ['elisa', elisaV]]) {
+    if (!v) continue;
+    // Altijd tokenAnswers en totalTokens laden
+    if (v.data.totalTokens !== undefined) state[kind].totalTokens = v.data.totalTokens;
+    if (v.data.totalSets !== undefined) state[kind].totalSets = v.data.totalSets;
+    if (v.data.tokenAnswers) state[kind].tokenAnswers = v.data.tokenAnswers;
+    if (v.datum === today) {
+      state[kind].ochtend = v.data.ochtend || {};
+      state[kind].avond = v.data.avond || {};
+    } else {
+      state[kind].ochtend = {};
+      state[kind].avond = {};
+      supaSetVoortgang(kind, today, {
+        ochtend: {}, avond: {},
+        totalTokens: state[kind].totalTokens || 0,
+        totalSets: state[kind].totalSets || 0,
+        tokenAnswers: state[kind].tokenAnswers || {}
+      });
+    }
+  }
+  saveStateLocal();
+  renderTasks('sem'); renderTasks('elisa');
+  updateDogFace('sem'); updateDogFace('elisa');
+  updateTokenDisplay('sem'); updateTokenDisplay('elisa');
+}
+
+function saveVoortgangCloud() {
+  const today = todayString();
+  supaSetVoortgang('sem', today, {
+    ochtend: state.sem.ochtend, avond: state.sem.avond,
+    totalTokens: state.sem.totalTokens || 0,
+    totalSets: state.sem.totalSets || 0,
+    tokenAnswers: state.sem.tokenAnswers || {}
+  });
+  supaSetVoortgang('elisa', today, {
+    ochtend: state.elisa.ochtend, avond: state.elisa.avond,
+    totalTokens: state.elisa.totalTokens || 0,
+    totalSets: state.elisa.totalSets || 0,
+    tokenAnswers: state.elisa.tokenAnswers || {}
+  });
+}
+
+const initHour = new Date().getHours();
+let currentTime = initHour >= 19 ? 'avond' : 'ochtend';
+let state = loadState();
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('belonings_v3');
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  return { sem: { ochtend:{}, avond:{}, totalPoints:0, totalTokens:0, totalSets:0, tokenAnswers:{} }, elisa: { ochtend:{}, avond:{}, totalPoints:0, totalTokens:0, totalSets:0, tokenAnswers:{} } };
+}
+
+function saveStateLocal() {
+  try { localStorage.setItem('belonings_v3', JSON.stringify(state)); } catch(e) {}
+}
+
+function saveState() {
+  saveStateLocal();
+  supaSet('sem', state.sem.totalPoints);
+  supaSet('elisa', state.elisa.totalPoints);
+  saveVoortgangCloud();
+}
+
+function setTime(time) {
+  currentTime = time;
+  document.getElementById('btnOchtend').className = 'time-btn' + (time==='ochtend' ? ' active-ochtend' : '');
+  document.getElementById('btnAvond').className = 'time-btn' + (time==='avond' ? ' active-avond' : '');
+  renderTasks('sem');
+  renderTasks('elisa');
+}
+
+function renderTasks(child) {
+  const blok = TASKS[child][currentTime];
+  const container = document.getElementById('tasks' + cap(child));
+  const done = state[child][currentTime];
+
+  const renderSection = (tasks, isExtra) => tasks.map(t => {
+    const isDone = !!done[t.id];
+    const pts = t.pts || 1;
+    return `<button class="task-btn${isDone?' done':''}" onclick="toggleTask('${child}','${t.id}','${isExtra?'extra':'standaard'}')">
+      <span class="task-emoji">${t.emoji}</span>
+      <span class="task-label">${t.label}</span>
+      ${isExtra ? `<span class="task-pts-badge">+${pts}</span>` : ''}
+      <span class="task-check">${isDone?'✓':''}</span>
+    </button>`;
+  }).join('');
+
+  let html = renderSection(blok.standaard, false);
+
+  // Extra taken
+  if (blok.extra.length > 0) {
+    html += `<div class="extra-header">Extra taken</div>`;
+    html += renderSection(blok.extra, true);
+  }
+
+  container.innerHTML = html;
+  updateProgress(child);
+}
+
+function toggleTask(child, taskId, category) {
+  const done = state[child][currentTime];
+  const blok = TASKS[child][currentTime];
+  const tasks = category === 'extra' ? blok.extra : blok.standaard;
+  const task = tasks.find(t => t.id === taskId);
+  const pts = task ? (task.pts || 1) : 1;
+
+  if (done[taskId]) {
+    done[taskId] = false;
+    if (category === 'extra') {
+      state[child].totalPoints = Math.max(0, state[child].totalPoints - pts);
+    }
+  } else {
+    done[taskId] = true;
+    if (category === 'extra') {
+      state[child].totalPoints += pts;
+    }
+    triggerBounce(child);
+  }
+
+  // Bonus check: alle standaard taken net afgerond?
+  if (category === 'standaard') {
+    const allDone = blok.standaard.every(t => done[t.id]);
+    if (allDone && !done['__bonus__']) {
+      done['__bonus__'] = true;
+      state[child].totalPoints += BONUS_PTS;
+    } else if (!allDone && done['__bonus__']) {
+      done['__bonus__'] = false;
+      state[child].totalPoints = Math.max(0, state[child].totalPoints - BONUS_PTS);
+    }
+  }
+
+  saveState();
+  renderTasks(child);
+  updatePoints(child);
+  checkAllDone(child);
+}
+
+function triggerBounce(child) {
+  const wrap = document.getElementById('dogWrap' + cap(child));
+  wrap.classList.remove('task-done');
+  void wrap.offsetWidth;
+  wrap.classList.add('task-done');
+  setTimeout(() => wrap.classList.remove('task-done'), 700);
+}
+
+function updatePoints(child) {
+  document.getElementById('points' + cap(child)).textContent = state[child].totalPoints;
+  updateDogFace(child);
+}
+
+function updateProgress(child) {
+  const blok = TASKS[child][currentTime];
+  const done = state[child][currentTime];
+  const allTasks = [...blok.standaard, ...blok.extra];
+  const doneCount = allTasks.filter(t => done[t.id]).length;
+  const total = allTasks.length;
+  const pct = total > 0 ? Math.round((doneCount/total)*100) : 0;
+  document.getElementById('progress'+cap(child)).style.width = pct+'%';
+  document.getElementById('progressText'+cap(child)).textContent = doneCount+' van '+total+' gedaan';
+}
+
+function updateDogFace(child) {
+  const blok = TASKS[child][currentTime];
+  const done = state[child][currentTime];
+  const allTasks = [...blok.standaard, ...blok.extra];
+  const doneCount = allTasks.filter(t => done[t.id]).length;
+  const total = allTasks.length;
+  const pct = total > 0 ? doneCount / total : 0;
+
+  // Level 0-5
+  let level = 0;
+  if (pct >= 1)      level = 5;
+  else if (pct > 0.75) level = 4;
+  else if (pct > 0.5)  level = 3;
+  else if (pct > 0.25) level = 2;
+  else if (pct > 0)    level = 1;
+
+  applyMood(child, level);
+}
+
+function applyMood(child, level) {
+  const mouth = document.getElementById('mouth-' + child);
+  const lids = document.getElementById('lids-' + child);
+  const b1 = document.getElementById('blush1-' + child);
+  const b2 = document.getElementById('blush2-' + child);
+  const tongue = document.getElementById('tongue-' + child);
+  const wrap = document.getElementById('dogWrap' + cap(child));
+
+  // Mouth path per level
+  const mouths = [
+    'M44 54 Q50 50 56 54',   // 0: slight frown
+    'M44 53 Q50 53 56 53',   // 1: flat
+    'M44 52 Q50 55 56 52',   // 2: tiny smile
+    'M43 51 Q50 57 57 51',   // 3: smile
+    'M42 50 Q50 59 58 50',   // 4: big smile
+    'M42 50 Q50 59 58 50',   // 5: big smile + tongue
+  ];
+
+  if (mouth) mouth.setAttribute('d', mouths[level]);
+
+  // Sleepy lids only at level 0
+  if (lids) lids.setAttribute('opacity', level === 0 ? '0.9' : '0');
+
+  // Blush at level 3+
+  const bOpacity = level >= 4 ? '0.75' : level === 3 ? '0.45' : '0';
+  if (b1) b1.setAttribute('opacity', bOpacity);
+  if (b2) b2.setAttribute('opacity', bOpacity);
+
+  // Tongue at level 5
+  if (tongue) tongue.setAttribute('opacity', level === 5 ? '1' : '0');
+
+  // Party mode
+  if (level === 5) {
+    if (!wrap.classList.contains('party')) {
+      wrap.classList.add('party');
+      clearTimeout(wrap._partyTimer);
+      wrap._partyTimer = setTimeout(() => {
+        wrap.classList.remove('party');
+      }, 10000);
+    }
+  } else {
+    wrap.classList.remove('party');
+    clearTimeout(wrap._partyTimer);
+  }
+}
+
+function checkAllDone(child) {
+  const blok = TASKS[child][currentTime];
+  const done = state[child][currentTime];
+  const allTasks = [...blok.standaard, ...blok.extra];
+  const allDone = allTasks.length > 0 && allTasks.every(t => done[t.id]);
+  if (allDone) launchConfetti(child === 'sem' ? '#4A90D9' : '#C9A8E0');
+}
+
+function launchConfetti(color) {
+  const wrap = document.getElementById('confetti');
+  wrap.innerHTML = '';
+  wrap.classList.add('show');
+  const colors = [color, '#FFD166', '#06D6A0', '#EF476F', '#118AB2', '#FF8FAB'];
+  for (let i = 0; i < 55; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    const size = 6 + Math.random() * 8;
+    p.style.cssText = `left:${Math.random()*100}%;top:-10px;background:${colors[Math.floor(Math.random()*colors.length)]};animation-delay:${Math.random()*0.7}s;animation-duration:${1.2+Math.random()*1}s;width:${size}px;height:${size}px;border-radius:${Math.random()>0.5?'50%':'2px'};`;
+    wrap.appendChild(p);
+  }
+  setTimeout(() => { wrap.classList.remove('show'); wrap.innerHTML=''; }, 10000);
+}
+
+function resetDay() {
+  if (!confirm('Nieuwe dag starten? Taken worden gereset, punten blijven staan.')) return;
+  state.sem.ochtend = {}; state.sem.avond = {};
+  state.elisa.ochtend = {}; state.elisa.avond = {};
+  saveState();
+  renderTasks('sem'); renderTasks('elisa');
+  updateDogFace('sem'); updateDogFace('elisa');
+  updatePoints('sem'); updatePoints('elisa');
+}
+
+function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+function updateDate() {
+  const days = ['zondag','maandag','dinsdag','woensdag','donderdag','vrijdag','zaterdag'];
+  const months = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
+  const d = new Date();
+  document.getElementById('dateDisplay').textContent = days[d.getDay()]+' '+d.getDate()+' '+months[d.getMonth()];
+}
+
+function autoTime() {
+  const h = new Date().getHours();
+  if (h >= 17 || h < 6) setTime('avond');
+  else setTime('ochtend');
+}
+
+// ---- PARENT PANEL ----
+const PIN = '1234'; // Wijzig dit naar jouw pincode
+let pinEntry = '';
+let editorChild = 'elisa';
+let editorTime = 'ochtend';
+let editorCat = 'standaard';
+
+function setEditorChild(child) {
+  editorChild = child;
+  updateEditorTabs();
+  renderTaskEditor();
+}
+
+function setEditorTime(time) {
+  editorTime = time;
+  updateEditorTabs();
+  renderTaskEditor();
+}
+
+function setEditorCat(cat) {
+  editorCat = cat;
+  updateEditorTabs();
+  renderTaskEditor();
+}
+
+function updateEditorTabs() {
+  document.getElementById('tabElisa').className = 'child-tab' + (editorChild==='elisa' ? ' active-elisa' : '');
+  document.getElementById('tabSem').className = 'child-tab' + (editorChild==='sem' ? ' active-sem' : '');
+  document.getElementById('tabOchtend').className = 'time-tab' + (editorTime==='ochtend' ? ' active' : '');
+  document.getElementById('tabAvond').className = 'time-tab' + (editorTime==='avond' ? ' active' : '');
+  document.getElementById('tabStandaard').className = 'time-tab' + (editorCat==='standaard' ? ' active' : '');
+  document.getElementById('tabExtra').className = 'time-tab' + (editorCat==='extra' ? ' active' : '');
+  document.getElementById('newPts').style.display = editorCat === 'extra' ? '' : 'none';
+}
+
+function renderTaskEditor() {
+  const tasks = TASKS[editorChild][editorTime][editorCat];
+  const container = document.getElementById('taskEditor');
+  const isExtra = editorCat === 'extra';
+  container.innerHTML = tasks.map((t, i) => `
+    <div class="task-editor-row">
+      <div class="order-btns">
+        <button class="order-btn" onclick="moveTask(${i},-1)" ${i===0?'disabled style="opacity:0.3"':''}>▲</button>
+        <button class="order-btn" onclick="moveTask(${i},1)" ${i===tasks.length-1?'disabled style="opacity:0.3"':''}>▼</button>
+      </div>
+      <span class="task-editor-emoji">${t.emoji}</span>
+      <input class="task-editor-input" value="${t.label}" onchange="renameTask(${i}, this.value)" />
+      ${isExtra ? `<div class="task-pts-controls">
+        <button class="task-pts-btn m" onclick="changeTaskPts(${i},-1)">−</button>
+        <span class="task-pts-val">${t.pts||1}</span>
+        <button class="task-pts-btn p" onclick="changeTaskPts(${i},1)">+</button>
+      </div>` : ''}
+      <button class="task-del-btn" onclick="deleteTask(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function openPin() {
+  pinEntry = '';
+  updatePinDots();
+  document.getElementById('pinOverlay').classList.add('show');
+}
+
+function closePin() {
+  pinEntry = '';
+  updatePinDots();
+  document.getElementById('pinOverlay').classList.remove('show');
+}
+
+function pinKey(k) {
+  if (k === 'del') { pinEntry = pinEntry.slice(0,-1); updatePinDots(); return; }
+  if (pinEntry.length >= 4) return;
+  pinEntry += k;
+  updatePinDots();
+  if (pinEntry.length === 4) {
+    setTimeout(() => {
+      if (pinEntry === PIN) {
+        closePin();
+        openPanel();
+      } else {
+        document.querySelectorAll('.pin-dot').forEach(d => { d.classList.remove('filled'); d.classList.add('error'); });
+        setTimeout(() => { document.querySelectorAll('.pin-dot').forEach(d => d.classList.remove('error')); pinEntry = ''; updatePinDots(); }, 600);
+      }
+    }, 100);
+  }
+}
+
+function updatePinDots() {
+  for (let i = 0; i < 4; i++) {
+    const d = document.getElementById('d'+i);
+    d.classList.toggle('filled', i < pinEntry.length);
+  }
+}
+
+function openPanel() {
+  document.getElementById('panelPointsElisa').textContent = state.elisa.totalPoints;
+  document.getElementById('panelPointsSem').textContent = state.sem.totalPoints;
+  document.getElementById('panelTokensElisa').textContent = (state.elisa.totalTokens || 0) % TOKEN_THRESHOLD;
+  document.getElementById('panelTokensSem').textContent = (state.sem.totalTokens || 0) % TOKEN_THRESHOLD;
+  document.getElementById('panelCoinsElisa').textContent = Math.floor((state.elisa.totalTokens || 0) / TOKEN_THRESHOLD);
+  document.getElementById('panelCoinsSem').textContent = Math.floor((state.sem.totalTokens || 0) / TOKEN_THRESHOLD);
+  document.getElementById('panelTokenThreshold').textContent = TOKEN_THRESHOLD;
+  updateBonusPtsDisplay();
+  editorChild = 'elisa'; editorTime = 'ochtend'; editorCat = 'standaard';
+  tokenEditorChild = 'elisa';
+  document.getElementById('tabTokenElisa').className = 'child-tab active-elisa';
+  document.getElementById('tabTokenSem').className = 'child-tab';
+  document.getElementById('tokenIconInput').value = TOKEN_ICONS['elisa'] || '🌸';
+  updateEditorTabs();
+  renderTaskEditor();
+  renderTokenEditor();
+  document.getElementById('parentPanel').classList.add('show');
+}
+
+function closePanel() {
+  document.getElementById('parentPanel').classList.remove('show');
+}
+
+function adjustTokenThreshold(delta) {
+  TOKEN_THRESHOLD = Math.max(1, TOKEN_THRESHOLD + delta);
+  document.getElementById('panelTokenThreshold').textContent = TOKEN_THRESHOLD;
+  saveTasksToCloud();
+}
+
+function adjustTokens(child, delta) {
+  state[child].totalTokens = Math.max(0, (state[child].totalTokens || 0) + delta);
+  document.getElementById('panelTokens' + cap(child)).textContent = state[child].totalTokens % TOKEN_THRESHOLD;
+  document.getElementById('panelCoins' + cap(child)).textContent = Math.floor(state[child].totalTokens / TOKEN_THRESHOLD);
+  updateTokenDisplay(child);
+  saveState();
+}
+
+function adjustCoins(child, delta) {
+  const current = state[child].totalTokens || 0;
+  const remainder = current % TOKEN_THRESHOLD;
+  const coins = Math.floor(current / TOKEN_THRESHOLD);
+  const newCoins = Math.max(0, coins + delta);
+  state[child].totalTokens = newCoins * TOKEN_THRESHOLD + remainder;
+  document.getElementById('panelCoins' + cap(child)).textContent = newCoins;
+  updateTokenDisplay(child);
+  saveState();
+}
+
+function adjustBonusPts(delta) {
+  BONUS_PTS = Math.max(1, BONUS_PTS + delta);
+  updateBonusPtsDisplay();
+  saveTasksToCloud();
+}
+
+function updateBonusPtsDisplay() {
+  const el = document.getElementById('panelBonusPts');
+  if (el) el.textContent = BONUS_PTS;
+}
+
+function adjustPoints(child, delta) {
+  state[child].totalPoints = Math.max(0, state[child].totalPoints + delta);
+  document.getElementById('panelPoints' + cap(child)).textContent = state[child].totalPoints;
+  document.getElementById('points' + cap(child)).textContent = state[child].totalPoints;
+  updateDogFace(child);
+  saveState();
+}
+
+
+function renameTask(index, newLabel) {
+  if (!newLabel.trim()) return;
+  TASKS[editorChild][editorTime][editorCat][index].label = newLabel.trim();
+  renderTasks(editorChild);
+  saveState();
+  saveTasksToCloud();
+}
+
+function moveTask(index, dir) {
+  const tasks = TASKS[editorChild][editorTime][editorCat];
+  const newIndex = index + dir;
+  if (newIndex < 0 || newIndex >= tasks.length) return;
+  const tmp = tasks[index];
+  tasks[index] = tasks[newIndex];
+  tasks[newIndex] = tmp;
+  renderTaskEditor();
+  renderTasks(editorChild);
+  saveState();
+  saveTasksToCloud();
+}
+
+function changeTaskPts(index, delta) {
+  const task = TASKS[editorChild][editorTime][editorCat][index];
+  task.pts = Math.max(1, (task.pts || 1) + delta);
+  renderTaskEditor();
+  renderTasks(editorChild);
+  saveState();
+  saveTasksToCloud();
+}
+
+function deleteTask(index) {
+  TASKS[editorChild][editorTime][editorCat].splice(index, 1);
+  renderTaskEditor();
+  renderTasks(editorChild);
+  saveState();
+  saveTasksToCloud();
+}
+
+function addTask() {
+  const emoji = document.getElementById('newEmoji').value.trim() || '⭐';
+  const label = document.getElementById('newLabel').value.trim();
+  const pts = Math.max(1, parseInt(document.getElementById('newPts').value) || 1);
+  if (!label) return;
+  const id = 'custom_' + Date.now();
+  TASKS[editorChild][editorTime][editorCat].push({ id, emoji, label, pts });
+  document.getElementById('newEmoji').value = '';
+  document.getElementById('newLabel').value = '';
+  document.getElementById('newPts').value = '1';
+  renderTaskEditor();
+  renderTasks(editorChild);
+  saveState();
+  saveTasksToCloud();
+}
+
+function panelResetDay() {
+  if (!confirm('Taken resetten voor beide kinderen?')) return;
+  state.sem.ochtend = {}; state.sem.avond = {};
+  state.elisa.ochtend = {}; state.elisa.avond = {};
+  saveState();
+  renderTasks('sem'); renderTasks('elisa');
+  updateDogFace('sem'); updateDogFace('elisa');
+  updatePoints('sem'); updatePoints('elisa');
+}
+
+function panelResetPoints() {
+  if (!confirm('Alle punten op nul zetten?')) return;
+  state.sem.totalPoints = 0; state.elisa.totalPoints = 0;
+  saveState();
+  updatePoints('sem'); updatePoints('elisa');
+  document.getElementById('panelPointsSem').textContent = 0;
+  document.getElementById('panelPointsElisa').textContent = 0;
+}
+
+setTime('ochtend');
+updatePoints('sem');
+updatePoints('elisa');
+updateTokenDisplay('sem');
+updateTokenDisplay('elisa');
+
+async function init() {
+  await syncTasksFromCloud();
+  await syncPointsFromCloud();
+  await syncVoortgangFromCloud();
+  // Juiste tab actief op basis van tijd
+  setTime(currentTime);
+}
+init();
+</script>
+</body>
+</html>
