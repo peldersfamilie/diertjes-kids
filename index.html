@@ -79,7 +79,7 @@
   .time-btn.active-avond { background: #F17A82; color: white; box-shadow: 0 4px 12px rgba(241,122,130,0.5); }
 
   .grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
     padding: 0 10px 20px; position: relative; z-index: 1;
   }
   @media (max-width: 600px) {
@@ -148,6 +148,7 @@
   .points-display {
     display: flex; align-items: center; gap: 4px; font-size: 1rem; font-weight: 900;
   }
+  .points-display .pts-star { font-size: 1.3rem; }
   .sem .points-display { color: var(--sem-dark); }
   .elisa .points-display { color: var(--elisa-dark); }
 
@@ -250,7 +251,9 @@
   .panel-header { background: #F17A82; color: white; padding: 20px 20px 16px; display: flex; align-items: center; justify-content: space-between; }
   .panel-header h2 { font-size: 1.2rem; font-weight: 900; }
   .panel-close { background: rgba(255,255,255,0.2); border: none; color: white; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 800; padding: 6px 14px; border-radius: 50px; cursor: pointer; }
-  .panel-body { padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+  .panel-body { padding: 50px 25px; display: flex; flex-direction: column; gap: 20px; }
+  @media (min-width: 768px) { .panel-body { padding: 50px; } }
+  @media (min-width: 1024px) { .panel-body { padding: 50px 100px 100px; } }
   .panel-section { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
   .panel-section h3 { font-size: 0.95rem; font-weight: 900; color: var(--text); margin-bottom: 12px; }
 
@@ -296,6 +299,49 @@
   .danger-btn.orange { background: #FFF3E0; color: #E65100; }
   .danger-btn.red { background: #FFE5E5; color: #C62828; }
   .danger-btn:active { transform: scale(0.98); }
+
+  /* SHOP */
+  .shop-btn {
+    background: none; border: 2px solid #F9D0D3; color: #F17A82;
+    font-family: 'Nunito', sans-serif; font-size: 0.8rem; font-weight: 700;
+    padding: 8px 18px; border-radius: 50px; cursor: pointer; transition: all 0.2s ease;
+  }
+  .shop-btn:hover { border-color: #F17A82; background: #FDE8EA; }
+  .shop-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
+  .shop-overlay.show { display: flex; }
+  .shop-box { background: #FDF8F0; border-radius: 28px; padding: 28px 24px 24px; width: 100%; max-width: 600px; max-height: 85vh; overflow-y: auto; box-shadow: 0 8px 40px rgba(0,0,0,0.2); position: relative; }
+  .shop-box h2 { font-size: 1.3rem; font-weight: 900; color: var(--text); margin-bottom: 4px; }
+  .shop-box .shop-sub { font-size: 0.85rem; color: var(--muted); font-weight: 600; margin-bottom: 16px; }
+  .shop-child-row { display: flex; gap: 8px; margin-bottom: 16px; }
+  .shop-child-btn { flex: 1; padding: 10px; border: 2px solid #F9D0D3; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 800; cursor: pointer; background: white; color: #999; transition: all 0.15s ease; }
+  .shop-child-btn.active { border-color: #F17A82; background: #FDE8EA; color: #F17A82; }
+  .shop-items { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .shop-item { background: white; border-radius: 16px; padding: 14px 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s ease; }
+  .shop-item:active { transform: scale(0.97); }
+  .shop-item.cant-afford { opacity: 0.4; cursor: not-allowed; }
+  .shop-item-emoji { font-size: 2.2rem; }
+  .shop-item-label { font-size: 0.85rem; font-weight: 800; color: var(--text); text-align: center; line-height: 1.2; }
+  .shop-item-price { font-size: 0.8rem; font-weight: 900; background: #FFD166; color: #7A5500; border-radius: 20px; padding: 3px 10px; }
+  .shop-item:not(.cant-afford):hover { border-color: #F17A82; box-shadow: 0 4px 16px rgba(241,122,130,0.2); }
+  .shop-close-btn { width: 100%; margin-top: 16px; padding: 12px; border: none; border-radius: 14px; background: #F9D0D3; color: #C0484F; font-family: 'Nunito', sans-serif; font-size: 0.95rem; font-weight: 800; cursor: pointer; }
+  .shop-confirm { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 300; align-items: center; justify-content: center; }
+  .shop-confirm.show { display: flex; }
+  .shop-confirm-box { background: white; border-radius: 24px; padding: 28px 24px; width: 300px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+  .shop-confirm-emoji { font-size: 3rem; margin-bottom: 8px; }
+  .shop-confirm-box h3 { font-size: 1.1rem; font-weight: 900; margin-bottom: 6px; }
+  .shop-confirm-box p { font-size: 0.85rem; color: var(--muted); font-weight: 600; margin-bottom: 20px; }
+  .shop-confirm-btns { display: flex; gap: 10px; }
+  .shop-confirm-yes { flex: 1; padding: 12px; border: none; border-radius: 12px; background: #F17A82; color: white; font-family: 'Nunito', sans-serif; font-size: 0.95rem; font-weight: 800; cursor: pointer; }
+  .shop-confirm-no { flex: 1; padding: 12px; border: none; border-radius: 12px; background: #F0F0F0; color: #888; font-family: 'Nunito', sans-serif; font-size: 0.95rem; font-weight: 800; cursor: pointer; }
+  .shop-editor-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: #F8F8F8; border-radius: 12px; }
+  .shop-editor-del { background: #FFE5E5; border: none; color: #E53935; border-radius: 8px; width: 28px; height: 28px; font-size: 1rem; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .shop-icon-btn {
+    position: fixed; top: 16px; right: 16px; z-index: 100;
+    background: none; border: none;
+    font-size: 1.8rem; cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  .shop-icon-btn:active { transform: scale(0.9); }
 </style>
 </head>
 <body>
@@ -380,8 +426,8 @@
           <path d="M54 15 Q58 10 57 19" stroke="#F5CC00" stroke-width="3" fill="none" stroke-linecap="round"/>
         </svg>
       </div>
-      <div class="points-display">
-        ⭐ <span id="pointsElisa">0</span>
+      <div class="points-display" style="cursor:pointer" onclick="openShop('elisa')">
+        <span class="pts-star">⭐</span> <span id="pointsElisa">0</span>
       </div>
     </div>
     <div class="progress-wrap">
@@ -441,8 +487,8 @@
           <ellipse cx="63" cy="87" rx="8" ry="5.5" fill="#3D7DB8"/>
         </svg>
       </div>
-      <div class="points-display">
-        ⭐ <span id="pointsSem">0</span>
+      <div class="points-display" style="cursor:pointer" onclick="openShop('sem')">
+        <span class="pts-star">⭐</span> <span id="pointsSem">0</span>
       </div>
     </div>
     <div class="progress-wrap">
@@ -467,6 +513,33 @@
     <div id="tokenInwisselRow" style="display:none;margin-bottom:12px"></div>
     <div style="display:flex;gap:8px">
       <button class="add-task-btn" style="flex:1;padding:12px;font-size:0.95rem" onclick="closeTokenPopup()">Klaar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Shop overlay -->
+<div class="shop-overlay" id="shopOverlay">
+  <div class="shop-box">
+    <button onclick="closeShop()" style="position:absolute;top:14px;right:16px;background:#EEE;border:none;border-radius:50%;width:32px;height:32px;font-size:1rem;cursor:pointer;color:#666;display:flex;align-items:center;justify-content:center;font-weight:900">✕</button>
+    <h2>🛍️ Punten inwisselen</h2>
+    <p class="shop-sub" id="shopSub"></p>
+    <div class="shop-child-row" id="shopChildRow">
+      <button class="shop-child-btn active" id="shopBtnElisa" onclick="setShopChild('elisa')">🌸 Elisa <span id="shopPtsElisa" style="font-size:0.75rem;opacity:0.7"></span></button>
+      <button class="shop-child-btn" id="shopBtnSem" onclick="setShopChild('sem')">🚗 Sem <span id="shopPtsSem" style="font-size:0.75rem;opacity:0.7"></span></button>
+    </div>
+    <div class="shop-items" id="shopItems"></div>
+  </div>
+</div>
+
+<!-- Shop bevestiging -->
+<div class="shop-confirm" id="shopConfirm">
+  <div class="shop-confirm-box">
+    <div class="shop-confirm-emoji" id="confirmEmoji">🎁</div>
+    <h3 id="confirmLabel">Beloning</h3>
+    <p id="confirmPrice">Dit kost ⭐ 10 punten. Weet je het zeker?</p>
+    <div class="shop-confirm-btns">
+      <button class="shop-confirm-yes" onclick="confirmBuy()">Ja! 🎉</button>
+      <button class="shop-confirm-no" onclick="closeConfirm()">Nee</button>
     </div>
   </div>
 </div>
@@ -536,14 +609,29 @@
       </div>
     </div>
 
+    <!-- Tabs aan/uit -->
+    <div class="panel-section">
+      <h3>🔘 Tabs aan/uitzetten</h3>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+        <div class="points-row">
+          <span class="points-name">☀️ Ochtend</span>
+          <button id="toggleOchtend" onclick="toggleTab('ochtend')" style="padding:6px 18px;border-radius:50px;border:none;font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:800;cursor:pointer;transition:all 0.2s"></button>
+        </div>
+        <div class="points-row">
+          <span class="points-name">🌤️ Middag</span>
+          <button id="toggleMiddag" onclick="toggleTab('middag')" style="padding:6px 18px;border-radius:50px;border:none;font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:800;cursor:pointer;transition:all 0.2s"></button>
+        </div>
+        <div class="points-row">
+          <span class="points-name">🌙 Avond</span>
+          <button id="toggleAvond" onclick="toggleTab('avond')" style="padding:6px 18px;border-radius:50px;border:none;font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:800;cursor:pointer;transition:all 0.2s"></button>
+        </div>
+      </div>
+    </div>
+
     <!-- Task editor -->
     <div class="panel-section">
       <h3>📋 Taken beheren</h3>
       <div style="display:flex;gap:8px;margin-bottom:12px;align-items:flex-start">
-        <div style="display:flex;flex-direction:column;gap:6px;flex:1">
-          <button class="time-tab active-elisa" id="tabElisa" onclick="setEditorChild('elisa')" style="width:100%;height:35px;box-sizing:border-box">Elisa</button>
-          <button class="time-tab" id="tabSem" onclick="setEditorChild('sem')" style="width:100%;height:35px;box-sizing:border-box">Sem</button>
-        </div>
         <div style="display:flex;flex-direction:column;gap:6px;flex:1">
           <button class="time-tab active" id="tabOchtend" onclick="setEditorTime('ochtend')" style="width:100%;height:35px;box-sizing:border-box">Ochtend</button>
           <button class="time-tab" id="tabMiddag" onclick="setEditorTime('middag')" style="width:100%;height:35px;box-sizing:border-box">Middag</button>
@@ -555,11 +643,39 @@
         </div>
       </div>
       <div class="task-editor" id="taskEditor"></div>
-      <div class="add-task-row">
-        <input class="add-task-emoji-input" id="newEmoji" placeholder="🎯" maxlength="2"/>
-        <input class="add-task-text-input" id="newLabel" placeholder="Nieuwe taak..."/>
-        <input class="add-task-pts-input" id="newPts" type="number" min="1" max="10" value="1" placeholder="pts"/>
-        <button class="add-task-btn" onclick="addTask()">+</button>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
+        <div class="add-task-row">
+          <input class="add-task-emoji-input" id="newEmoji" placeholder="🎯" maxlength="2"/>
+          <input class="add-task-text-input" id="newLabel" placeholder="Nieuwe taak..."/>
+          <input class="add-task-pts-input" id="newPts" type="number" min="1" max="10" value="1" placeholder="pts" style="display:none"/>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span style="font-size:0.8rem;font-weight:800;color:#888">Voor:</span>
+          <button id="taskForBeiden" class="time-tab active" style="flex:1;height:35px;box-sizing:border-box" onclick="setTaskFor('beiden')">Beiden</button>
+          <button id="taskForElisa" class="time-tab" style="flex:1;height:35px;box-sizing:border-box" onclick="setTaskFor('elisa')">Elisa</button>
+          <button id="taskForSem" class="time-tab" style="flex:1;height:35px;box-sizing:border-box" onclick="setTaskFor('sem')">Sem</button>
+          <button class="add-task-btn" onclick="addTask()">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shop beheer -->
+    <div class="panel-section">
+      <h3>🛍️ Shop beheren</h3>
+      <div id="shopEditor" style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px"></div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+        <div class="add-task-row">
+          <input class="add-task-emoji-input" id="shopNewEmoji" placeholder="🎁" maxlength="2"/>
+          <input class="add-task-text-input" id="shopNewLabel" placeholder="Nieuwe beloning..."/>
+          <input class="add-task-pts-input" id="shopNewPts" type="number" min="1" value="10" placeholder="pts"/>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span style="font-size:0.8rem;font-weight:800;color:#888">Voor:</span>
+          <button id="shopForBeiden" class="time-tab active" style="flex:1;height:35px;box-sizing:border-box" onclick="setShopFor('beiden')">Beiden</button>
+          <button id="shopForElisa" class="time-tab" style="flex:1;height:35px;box-sizing:border-box" onclick="setShopFor('elisa')">Elisa</button>
+          <button id="shopForSem" class="time-tab" style="flex:1;height:35px;box-sizing:border-box" onclick="setShopFor('sem')">Sem</button>
+          <button class="add-task-btn" onclick="addShopItem()">+</button>
+        </div>
       </div>
     </div>
 
@@ -572,7 +688,7 @@
       </div>
       <div id="tokenQuestionEditor" style="display:flex;flex-direction:column;gap:8px;margin-top:8px"></div>
       <div style="margin-top:10px;display:flex;align-items:center;gap:10px;padding:8px 10px;background:#F8F8F8;border-radius:12px;">
-        <span style="font-size:0.85rem;font-weight:800;flex:1">Icoontje knop</span>
+        <span style="font-size:0.85rem;font-weight:800;flex:1">Knop icoon</span>
         <input class="add-task-emoji-input" id="tokenIconInput" maxlength="2" style="width:48px" onchange="updateTokenIcon(this.value)"/>
       </div>
       <div style="margin-top:12px;border-top:1px solid #F0F0F0;padding-top:12px">
@@ -622,6 +738,10 @@
   </div>
 </div>
 
+<!-- Shop section in parent panel -->
+<div class="panel-section" id="shopPanelSection" style="display:none">
+</div>
+
 <div class="confetti-wrap" id="confetti"></div>
 
 <script>
@@ -629,24 +749,24 @@ const TASKS = {
   sem: {
     ochtend: {
       standaard: [
-        { id: 'bril', emoji: '👓', label: 'Bril op', pts: 1 },
-        { id: 'ontbijt', emoji: '🥣', label: 'Ontbijten', pts: 1 },
-        { id: 'vitamine', emoji: '💊', label: 'Vitamine', pts: 1 },
-        { id: 'bord', emoji: '🍽️', label: 'Bord & beker weg', pts: 1 },
-        { id: 'tanden-o', emoji: '🦷', label: 'Tanden poetsen', pts: 1 },
-        { id: 'schoenen', emoji: '👟', label: 'Schoenen aan', pts: 1 },
+        { id: 'bril', emoji: '👓', label: 'Bril op', pts: 1, voor: 'sem' },
+        { id: 'ontbijt', emoji: '🥣', label: 'Ontbijten', pts: 1, voor: 'beiden' },
+        { id: 'vitamine', emoji: '💊', label: 'Vitamine', pts: 1, voor: 'beiden' },
+        { id: 'bord', emoji: '🍽️', label: 'Bord & beker weg', pts: 1, voor: 'beiden' },
+        { id: 'tanden-o', emoji: '🦷', label: 'Tanden poetsen', pts: 1, voor: 'beiden' },
+        { id: 'schoenen', emoji: '👟', label: 'Schoenen aan', pts: 1, voor: 'beiden' },
       ],
       extra: []
     },
     avond: {
       standaard: [
-        { id: 'opruimen', emoji: '🧹', label: 'Opruimen', pts: 1 },
-        { id: 'mandje', emoji: '🧺', label: 'Mandje opruimen', pts: 1 },
-        { id: 'tanden-a', emoji: '🦷', label: 'Tanden poetsen', pts: 1 },
-        { id: 'wc1', emoji: '🚽', label: 'WC', pts: 1 },
-        { id: 'omkleden', emoji: '🩳', label: 'Omkleden', pts: 1 },
-        { id: 'verhaal', emoji: '📖', label: 'Verhaal lezen', pts: 1 },
-        { id: 'wc2', emoji: '🚽', label: 'WC (nog een keer)', pts: 1 },
+        { id: 'opruimen', emoji: '🧹', label: 'Opruimen', pts: 1, voor: 'beiden' },
+        { id: 'mandje', emoji: '🧺', label: 'Mandje opruimen', pts: 1, voor: 'beiden' },
+        { id: 'tanden-a', emoji: '🦷', label: 'Tanden poetsen', pts: 1, voor: 'beiden' },
+        { id: 'wc1', emoji: '🚽', label: 'WC', pts: 1, voor: 'beiden' },
+        { id: 'omkleden', emoji: '🩳', label: 'Omkleden', pts: 1, voor: 'beiden' },
+        { id: 'verhaal', emoji: '📖', label: 'Verhaal lezen', pts: 1, voor: 'beiden' },
+        { id: 'wc2', emoji: '🚽', label: 'WC (nog een keer)', pts: 1, voor: 'sem' },
       ],
       extra: []
     },
@@ -658,22 +778,22 @@ const TASKS = {
   elisa: {
     ochtend: {
       standaard: [
-        { id: 'ontbijt', emoji: '🥣', label: 'Ontbijten', pts: 1 },
-        { id: 'vitamine', emoji: '💊', label: 'Vitamine', pts: 1 },
-        { id: 'bord', emoji: '🍽️', label: 'Bord & beker weg', pts: 1 },
-        { id: 'tanden-o', emoji: '🦷', label: 'Tanden poetsen', pts: 1 },
-        { id: 'schoenen', emoji: '👟', label: 'Schoenen aan', pts: 1 },
+        { id: 'ontbijt', emoji: '🥣', label: 'Ontbijten', pts: 1, voor: 'beiden' },
+        { id: 'vitamine', emoji: '💊', label: 'Vitamine', pts: 1, voor: 'beiden' },
+        { id: 'bord', emoji: '🍽️', label: 'Bord & beker weg', pts: 1, voor: 'beiden' },
+        { id: 'tanden-o', emoji: '🦷', label: 'Tanden poetsen', pts: 1, voor: 'beiden' },
+        { id: 'schoenen', emoji: '👟', label: 'Schoenen aan', pts: 1, voor: 'beiden' },
       ],
       extra: []
     },
     avond: {
       standaard: [
-        { id: 'opruimen', emoji: '🧹', label: 'Opruimen', pts: 1 },
-        { id: 'mandje', emoji: '🧺', label: 'Mandje opruimen', pts: 1 },
-        { id: 'tanden-a', emoji: '🦷', label: 'Tanden poetsen', pts: 1 },
-        { id: 'wc1', emoji: '🚽', label: 'WC', pts: 1 },
-        { id: 'omkleden', emoji: '🩳', label: 'Omkleden', pts: 1 },
-        { id: 'verhaal', emoji: '📖', label: 'Verhaal lezen', pts: 1 },
+        { id: 'opruimen', emoji: '🧹', label: 'Opruimen', pts: 1, voor: 'beiden' },
+        { id: 'mandje', emoji: '🧺', label: 'Mandje opruimen', pts: 1, voor: 'beiden' },
+        { id: 'tanden-a', emoji: '🦷', label: 'Tanden poetsen', pts: 1, voor: 'beiden' },
+        { id: 'wc1', emoji: '🚽', label: 'WC', pts: 1, voor: 'beiden' },
+        { id: 'omkleden', emoji: '🩳', label: 'Omkleden', pts: 1, voor: 'beiden' },
+        { id: 'verhaal', emoji: '📖', label: 'Verhaal lezen', pts: 1, voor: 'beiden' },
       ],
       extra: []
     },
@@ -686,6 +806,7 @@ const TASKS = {
 
 let BONUS_PTS = 5;
 let TOKEN_THRESHOLD = 8;
+let TABS_ENABLED = { ochtend: true, middag: true, avond: true };
 
 // ---- TOKEN VRAGEN ----
 const TOKEN_QUESTIONS = {
@@ -969,9 +1090,19 @@ async function syncTasksFromCloud() {
         if (tasksData[child]?.[time]?.extra) TASKS[child][time].extra = tasksData[child][time].extra;
       }
     }
+    // Voeg voor-veld toe aan bestaande taken zonder dat veld
+    for (const child of ['sem', 'elisa']) {
+      for (const time of ['ochtend', 'middag', 'avond']) {
+        for (const cat of ['standaard', 'extra']) {
+          TASKS[child][time][cat].forEach(t => { if (!t.voor) t.voor = child; });
+        }
+      }
+    }
     if (tasksData.bonus_pts !== undefined) BONUS_PTS = tasksData.bonus_pts;
     if (tasksData.token_threshold !== undefined) TOKEN_THRESHOLD = tasksData.token_threshold;
     if (tasksData.token_icons) { TOKEN_ICONS.elisa = tasksData.token_icons.elisa || TOKEN_ICONS.elisa; TOKEN_ICONS.sem = tasksData.token_icons.sem || TOKEN_ICONS.sem; }
+    if (tasksData.shop_items) SHOP_ITEMS = tasksData.shop_items;
+    if (tasksData.tabs_enabled) TABS_ENABLED = { ...TABS_ENABLED, ...tasksData.tabs_enabled };
   }
 
   if (tokenData && Object.keys(tokenData).length > 0) {
@@ -983,6 +1114,7 @@ async function syncTasksFromCloud() {
   renderTasks('sem'); renderTasks('elisa');
   updateTokenDisplay('sem'); updateTokenDisplay('elisa');
   updateBonusPtsDisplay();
+  setTime(currentTime);
 }
 
 function saveTasksToCloud() {
@@ -991,7 +1123,9 @@ function saveTasksToCloud() {
     elisa: TASKS.elisa,
     bonus_pts: BONUS_PTS,
     token_threshold: TOKEN_THRESHOLD,
-    token_icons: TOKEN_ICONS
+    token_icons: TOKEN_ICONS,
+    shop_items: SHOP_ITEMS,
+    tabs_enabled: TABS_ENABLED
   });
   supaSetTaken('token_questions', {
     sem: TOKEN_QUESTIONS.sem,
@@ -1085,10 +1219,16 @@ function saveState() {
 }
 
 function setTime(time) {
+  // Als gevraagde tab uitstaat, kies eerste beschikbare
+  if (!TABS_ENABLED[time]) {
+    time = ['ochtend','middag','avond'].find(t => TABS_ENABLED[t]) || 'ochtend';
+  }
   currentTime = time;
-  document.getElementById('btnOchtend').className = 'time-btn' + (time==='ochtend' ? ' active-ochtend' : '');
-  document.getElementById('btnMiddag').className = 'time-btn' + (time==='middag' ? ' active-middag' : '');
-  document.getElementById('btnAvond').className = 'time-btn' + (time==='avond' ? ' active-avond' : '');
+  ['ochtend','middag','avond'].forEach(t => {
+    const btn = document.getElementById('btn' + cap(t));
+    btn.style.display = TABS_ENABLED[t] ? '' : 'none';
+    btn.className = 'time-btn' + (time === t ? ' active-' + t : '');
+  });
   renderTasks('sem');
   renderTasks('elisa');
 }
@@ -1303,6 +1443,16 @@ let editorChild = 'elisa';
 let editorTime = 'ochtend';
 let editorCat = 'standaard';
 
+let taskNewFor = 'beiden';
+
+function setTaskFor(voor) {
+  taskNewFor = voor;
+  ['beiden','elisa','sem'].forEach(v => {
+    const btn = document.getElementById('taskFor' + cap(v));
+    if (btn) btn.className = 'time-tab' + (v === voor ? ' active' : '');
+  });
+}
+
 function setEditorChild(child) {
   editorChild = child;
   updateEditorTabs();
@@ -1322,8 +1472,6 @@ function setEditorCat(cat) {
 }
 
 function updateEditorTabs() {
-  document.getElementById('tabElisa').className = 'time-tab' + (editorChild==='elisa' ? ' active-elisa' : '');
-  document.getElementById('tabSem').className = 'time-tab' + (editorChild==='sem' ? ' active-sem' : '');
   document.getElementById('tabOchtend').className = 'time-tab' + (editorTime==='ochtend' ? ' active' : '');
   document.getElementById('tabMiddag').className = 'time-tab' + (editorTime==='middag' ? ' active' : '');
   document.getElementById('tabAvond').className = 'time-tab' + (editorTime==='avond' ? ' active' : '');
@@ -1333,25 +1481,59 @@ function updateEditorTabs() {
 }
 
 function renderTaskEditor() {
-  const tasks = TASKS[editorChild][editorTime][editorCat];
   const container = document.getElementById('taskEditor');
   const isExtra = editorCat === 'extra';
-  container.innerHTML = tasks.map((t, i) => `
-    <div class="task-editor-row">
-      <div class="order-btns">
-        <button class="order-btn" onclick="moveTask(${i},-1)" ${i===0?'disabled style="opacity:0.3"':''}>▲</button>
-        <button class="order-btn" onclick="moveTask(${i},1)" ${i===tasks.length-1?'disabled style="opacity:0.3"':''}>▼</button>
-      </div>
-      <span class="task-editor-emoji">${t.emoji}</span>
-      <input class="task-editor-input" value="${t.label}" onchange="renameTask(${i}, this.value)" />
-      ${isExtra ? `<div class="task-pts-controls">
-        <button class="task-pts-btn m" onclick="changeTaskPts(${i},-1)">−</button>
-        <span class="task-pts-val">${t.pts||1}</span>
-        <button class="task-pts-btn p" onclick="changeTaskPts(${i},1)">+</button>
-      </div>` : ''}
-      <button class="task-del-btn" onclick="deleteTask(${i})">✕</button>
-    </div>
-  `).join('');
+
+  // Verzamel alle taken van beide kinderen, gegroepeerd
+  const groepen = ['elisa', 'sem', 'beiden'].map(groep => {
+    let items = [];
+    if (groep === 'beiden') {
+      // Taken die bij beide kinderen identiek zijn (zelfde id)
+      const elisaTasks = TASKS.elisa[editorTime][editorCat];
+      const semTasks = TASKS.sem[editorTime][editorCat];
+      const semIds = new Set(semTasks.map(t => t.id));
+      items = elisaTasks
+        .filter(t => t.voor === 'beiden' || semIds.has(t.id))
+        .map((t, i) => ({ ...t, _child: 'beiden', _iElisa: i, _iSem: semTasks.findIndex(s => s.id === t.id) }));
+    } else {
+      items = TASKS[groep][editorTime][editorCat]
+        .map((t, i) => ({ ...t, _child: groep, _i: i }))
+        .filter(t => t.voor === groep);
+    }
+    return { groep, items };
+  }).filter(g => g.items.length > 0);
+
+  if (groepen.length === 0) {
+    container.innerHTML = '<p style="color:#AAA;font-size:0.85rem;font-weight:700;padding:10px 4px">Geen taken</p>';
+    return;
+  }
+
+  container.innerHTML = groepen.map(({ groep, items }) => {
+    const groepLabel = groep === 'elisa' ? '🌸 Elisa' : groep === 'sem' ? '🚗 Sem' : '👫 Beiden';
+    const groepKleur = groep === 'elisa' ? '#F9D0D3' : groep === 'sem' ? '#C8E6F7' : '#E8F5E9';
+    const groepTekst = groep === 'elisa' ? '#C0484F' : groep === 'sem' ? '#1A5A8A' : '#2E7D32';
+    const childKey = groep === 'beiden' ? 'elisa' : groep;
+    const tasks = TASKS[childKey][editorTime][editorCat].filter(t => groep === 'beiden' ? (t.voor === 'beiden') : t.voor === groep);
+
+    return `<div style="font-size:0.75rem;font-weight:900;color:${groepTekst};background:${groepKleur};border-radius:8px;padding:8px 10px;margin-top:8px;margin-bottom:4px">${groepLabel}</div>
+    ${tasks.map((t, i) => {
+      const realI = TASKS[childKey][editorTime][editorCat].indexOf(t);
+      return `<div class="task-editor-row">
+        <div class="order-btns">
+          <button class="order-btn" onclick="moveTaskFor('${childKey}','${groep}',${realI},-1)">▲</button>
+          <button class="order-btn" onclick="moveTaskFor('${childKey}','${groep}',${realI},1)">▼</button>
+        </div>
+        <span class="task-editor-emoji">${t.emoji}</span>
+        <input class="task-editor-input" value="${t.label}" onchange="renameTaskFor('${childKey}','${groep}',${realI},this.value)" />
+        ${isExtra ? `<div class="task-pts-controls">
+          <button class="task-pts-btn m" onclick="changeTaskPtsFor('${childKey}','${groep}',${realI},-1)">−</button>
+          <span class="task-pts-val">${t.pts||1}</span>
+          <button class="task-pts-btn p" onclick="changeTaskPtsFor('${childKey}','${groep}',${realI},1)">+</button>
+        </div>` : ''}
+        <button class="task-del-btn" onclick="deleteTaskFor('${childKey}','${groep}',${realI})">✕</button>
+      </div>`;
+    }).join('')}`;
+  }).join('');
 }
 
 function openPin() {
@@ -1407,6 +1589,8 @@ function openPanel() {
   updateEditorTabs();
   renderTaskEditor();
   renderTokenEditor();
+  renderShopEditor();
+  updateToggleButtons();
   document.getElementById('parentPanel').classList.add('show');
 }
 
@@ -1497,20 +1681,85 @@ function deleteTask(index) {
   saveTasksToCloud();
 }
 
+function moveTaskFor(child, groep, index, dir) {
+  const tasks = TASKS[child][editorTime][editorCat];
+  const newIndex = index + dir;
+  if (newIndex < 0 || newIndex >= tasks.length) return;
+  [tasks[index], tasks[newIndex]] = [tasks[newIndex], tasks[index]];
+  // Sync naar andere kind als beiden
+  if (groep === 'beiden') {
+    const other = child === 'elisa' ? 'sem' : 'elisa';
+    const otherTasks = TASKS[other][editorTime][editorCat];
+    const t = tasks[newIndex < index ? newIndex : index];
+    const oi = otherTasks.findIndex(s => s.id === t.id);
+    if (oi >= 0) {
+      const oi2 = otherTasks.findIndex(s => s.id === tasks[newIndex < index ? index : newIndex].id);
+      if (oi2 >= 0) [otherTasks[oi], otherTasks[oi2]] = [otherTasks[oi2], otherTasks[oi]];
+    }
+  }
+  renderTaskEditor();
+  renderTasks('sem'); renderTasks('elisa');
+  saveState(); saveTasksToCloud();
+}
+
+function renameTaskFor(child, groep, index, newLabel) {
+  if (!newLabel.trim()) return;
+  TASKS[child][editorTime][editorCat][index].label = newLabel.trim();
+  if (groep === 'beiden') {
+    const other = child === 'elisa' ? 'sem' : 'elisa';
+    const id = TASKS[child][editorTime][editorCat][index].id;
+    const oi = TASKS[other][editorTime][editorCat].findIndex(t => t.id === id);
+    if (oi >= 0) TASKS[other][editorTime][editorCat][oi].label = newLabel.trim();
+  }
+  renderTasks('sem'); renderTasks('elisa');
+  saveState(); saveTasksToCloud();
+}
+
+function changeTaskPtsFor(child, groep, index, delta) {
+  const task = TASKS[child][editorTime][editorCat][index];
+  task.pts = Math.max(1, (task.pts || 1) + delta);
+  if (groep === 'beiden') {
+    const other = child === 'elisa' ? 'sem' : 'elisa';
+    const oi = TASKS[other][editorTime][editorCat].findIndex(t => t.id === task.id);
+    if (oi >= 0) TASKS[other][editorTime][editorCat][oi].pts = task.pts;
+  }
+  renderTaskEditor();
+  renderTasks('sem'); renderTasks('elisa');
+  saveState(); saveTasksToCloud();
+}
+
+function deleteTaskFor(child, groep, index) {
+  const id = TASKS[child][editorTime][editorCat][index].id;
+  TASKS[child][editorTime][editorCat].splice(index, 1);
+  if (groep === 'beiden') {
+    const other = child === 'elisa' ? 'sem' : 'elisa';
+    const oi = TASKS[other][editorTime][editorCat].findIndex(t => t.id === id);
+    if (oi >= 0) TASKS[other][editorTime][editorCat].splice(oi, 1);
+  }
+  renderTaskEditor();
+  renderTasks('sem'); renderTasks('elisa');
+  saveState(); saveTasksToCloud();
+}
+
 function addTask() {
   const emoji = document.getElementById('newEmoji').value.trim() || '⭐';
   const label = document.getElementById('newLabel').value.trim();
   const pts = Math.max(1, parseInt(document.getElementById('newPts').value) || 1);
   if (!label) return;
   const id = 'custom_' + Date.now();
-  TASKS[editorChild][editorTime][editorCat].push({ id, emoji, label, pts });
+  const task = { id, emoji, label, pts, voor: taskNewFor };
+  if (taskNewFor === 'beiden') {
+    TASKS.elisa[editorTime][editorCat].push({ ...task });
+    TASKS.sem[editorTime][editorCat].push({ ...task });
+  } else {
+    TASKS[taskNewFor][editorTime][editorCat].push(task);
+  }
   document.getElementById('newEmoji').value = '';
   document.getElementById('newLabel').value = '';
   document.getElementById('newPts').value = '1';
   renderTaskEditor();
-  renderTasks(editorChild);
-  saveState();
-  saveTasksToCloud();
+  renderTasks('sem'); renderTasks('elisa');
+  saveState(); saveTasksToCloud();
 }
 
 function panelResetDay() {
@@ -1532,11 +1781,179 @@ function panelResetPoints() {
   document.getElementById('panelPointsElisa').textContent = 0;
 }
 
+// ---- SHOP ----
+let SHOP_ITEMS = [
+  { id: 'snoep', emoji: '🍬', label: 'Snoepje', pts: 5, voor: 'beiden' },
+  { id: 'schermtijd', emoji: '📱', label: 'Extra schermtijd', pts: 15, voor: 'beiden' },
+  { id: 'film', emoji: '🍿', label: 'Filmavond kiezen', pts: 25, voor: 'beiden' },
+  { id: 'uitje', emoji: '🎉', label: 'Klein uitje', pts: 50, voor: 'beiden' },
+];
+
+let shopChild = 'elisa';
+let shopFromChild = null;
+let pendingItem = null;
+let shopNewFor = 'beiden';
+
+function openShop(child) {
+  shopFromChild = child || null;
+  shopChild = child || 'elisa';
+  document.getElementById('shopChildRow').style.display = shopFromChild ? 'none' : '';
+  document.getElementById('shopBtnElisa').className = 'shop-child-btn' + (shopChild === 'elisa' ? ' active' : '');
+  document.getElementById('shopBtnSem').className = 'shop-child-btn' + (shopChild === 'sem' ? ' active' : '');
+  renderShop();
+  document.getElementById('shopOverlay').classList.add('show');
+}
+
+function closeShop() {
+  document.getElementById('shopOverlay').classList.remove('show');
+}
+
+function setShopChild(child) {
+  shopChild = child;
+  document.getElementById('shopBtnElisa').className = 'shop-child-btn' + (child === 'elisa' ? ' active' : '');
+  document.getElementById('shopBtnSem').className = 'shop-child-btn' + (child === 'sem' ? ' active' : '');
+  renderShop();
+}
+
+function renderShop() {
+  const pts = state[shopChild].totalPoints;
+  document.getElementById('shopPtsElisa').textContent = '⭐ ' + state.elisa.totalPoints;
+  document.getElementById('shopPtsSem').textContent = '⭐ ' + state.sem.totalPoints;
+  document.getElementById('shopSub').textContent = (shopChild === 'elisa' ? '🌸 Elisa' : '🚗 Sem') + ' heeft ⭐ ' + pts + ' punten';
+  const visibleItems = SHOP_ITEMS.filter(i => i.voor === 'beiden' || i.voor === shopChild);
+  const container = document.getElementById('shopItems');
+  if (visibleItems.length === 0) {
+    container.innerHTML = '<p style="color:#AAA;font-size:0.85rem;font-weight:700;text-align:center;grid-column:span 2;padding:20px 0">Geen beloningen beschikbaar</p>';
+    return;
+  }
+  container.innerHTML = visibleItems.map(item => {
+    const canAfford = pts >= item.pts;
+    return `<div class="shop-item${canAfford ? '' : ' cant-afford'}" onclick="${canAfford ? `buyItem('${item.id}')` : ''}">
+      <div class="shop-item-emoji">${item.emoji}</div>
+      <div class="shop-item-label">${item.label}</div>
+      <div class="shop-item-price">⭐ ${item.pts}</div>
+    </div>`;
+  }).join('');
+}
+
+function buyItem(id) {
+  pendingItem = SHOP_ITEMS.find(i => i.id === id);
+  if (!pendingItem) return;
+  document.getElementById('confirmEmoji').textContent = pendingItem.emoji;
+  document.getElementById('confirmLabel').textContent = pendingItem.label;
+  document.getElementById('confirmPrice').textContent = `Dit kost ⭐ ${pendingItem.pts} punten. Weet je het zeker?`;
+  document.getElementById('shopConfirm').classList.add('show');
+}
+
+function closeConfirm() {
+  pendingItem = null;
+  document.getElementById('shopConfirm').classList.remove('show');
+}
+
+function confirmBuy() {
+  if (!pendingItem) return;
+  state[shopChild].totalPoints = Math.max(0, state[shopChild].totalPoints - pendingItem.pts);
+  document.getElementById('points' + cap(shopChild)).textContent = state[shopChild].totalPoints;
+  updateDogFace(shopChild);
+  saveState();
+  closeConfirm();
+  renderShop();
+  spawnConfetti();
+}
+
+function setShopFor(voor) {
+  shopNewFor = voor;
+  ['beiden','elisa','sem'].forEach(v => {
+    const btn = document.getElementById('shopFor' + cap(v));
+    if (btn) btn.className = 'time-tab' + (v === voor ? ' active' : '');
+  });
+}
+
+function renderShopEditor() {
+  const container = document.getElementById('shopEditor');
+  if (!container) return;
+  container.innerHTML = ['elisa', 'sem', 'beiden'].map(groep => {
+    const items = SHOP_ITEMS.map((item, i) => ({...item, _i: i})).filter(item => (item.voor || 'beiden') === groep);
+    if (items.length === 0) return '';
+    const groepLabel = groep === 'elisa' ? '🌸 Elisa' : groep === 'sem' ? '🚗 Sem' : '👫 Beiden';
+    const groepKleur = groep === 'elisa' ? '#F9D0D3' : groep === 'sem' ? '#C8E6F7' : '#E8F5E9';
+    const groepTekst = groep === 'elisa' ? '#C0484F' : groep === 'sem' ? '#1A5A8A' : '#2E7D32';
+    return `
+      <div style="font-size:0.75rem;font-weight:900;color:${groepTekst};background:${groepKleur};border-radius:8px;padding:8px 10px;margin-top:8px;margin-bottom:4px">${groepLabel}</div>
+      ${items.map(item => `<div class="shop-editor-item">
+        <div class="order-btns">
+          <button class="order-btn" onclick="moveShopItem(${item._i},-1)">▲</button>
+          <button class="order-btn" onclick="moveShopItem(${item._i},1)">▼</button>
+        </div>
+        <span style="font-size:1.2rem;width:28px;text-align:center">${item.emoji}</span>
+        <span style="flex:1;font-size:0.85rem;font-weight:700">${item.label}</span>
+        <div class="task-pts-controls">
+          <button class="task-pts-btn m" onclick="changeShopPts(${item._i},-1)">−</button>
+          <span class="task-pts-val">⭐ ${item.pts}</span>
+          <button class="task-pts-btn p" onclick="changeShopPts(${item._i},1)">+</button>
+        </div>
+        <button class="shop-editor-del" onclick="deleteShopItem(${item._i})">✕</button>
+      </div>`).join('')}`;
+  }).join('');
+}
+
+function addShopItem() {
+  const emoji = document.getElementById('shopNewEmoji').value.trim() || '🎁';
+  const label = document.getElementById('shopNewLabel').value.trim();
+  const pts = Math.max(1, parseInt(document.getElementById('shopNewPts').value) || 10);
+  if (!label) return;
+  const id = 'shop_' + Date.now();
+  SHOP_ITEMS.push({ id, emoji, label, pts, voor: shopNewFor });
+  document.getElementById('shopNewEmoji').value = '';
+  document.getElementById('shopNewLabel').value = '';
+  document.getElementById('shopNewPts').value = '10';
+  renderShopEditor();
+  saveTasksToCloud();
+}
+
+function moveShopItem(index, dir) {
+  const newIndex = index + dir;
+  if (newIndex < 0 || newIndex >= SHOP_ITEMS.length) return;
+  const tmp = SHOP_ITEMS[index];
+  SHOP_ITEMS[index] = SHOP_ITEMS[newIndex];
+  SHOP_ITEMS[newIndex] = tmp;
+  renderShopEditor();
+  saveTasksToCloud();
+}
+
+function changeShopPts(index, delta) {
+  SHOP_ITEMS[index].pts = Math.max(1, (SHOP_ITEMS[index].pts || 1) + delta);
+  renderShopEditor();
+  saveTasksToCloud();
+}
+
+function deleteShopItem(index) {
+  SHOP_ITEMS.splice(index, 1);
+  renderShopEditor();
+  saveTasksToCloud();
+}
+
+function toggleTab(tab) {
+  const enabled = ['ochtend','middag','avond'].filter(t => TABS_ENABLED[t]);
+  if (enabled.length === 1 && enabled[0] === tab) return;
+  TABS_ENABLED[tab] = !TABS_ENABLED[tab];
+  updateToggleButtons();
+  setTime(currentTime);
+  saveTasksToCloud();
+}
+
+function updateToggleButtons() {
+  ['ochtend','middag','avond'].forEach(t => {
+    const btn = document.getElementById('toggle' + cap(t));
+    if (!btn) return;
+    const on = TABS_ENABLED[t];
+    btn.textContent = on ? 'Aan' : 'Uit';
+    btn.style.background = on ? '#E8F5E9' : '#FFE5E5';
+    btn.style.color = on ? '#2E7D32' : '#E53935';
+  });
+}
+
 setTime('ochtend');
-updatePoints('sem');
-updatePoints('elisa');
-updateTokenDisplay('sem');
-updateTokenDisplay('elisa');
 
 async function init() {
   await syncTasksFromCloud();
